@@ -1,0 +1,23 @@
+// 05/24/2024
+- Created files
+	+ Created index.html
+	+ Created source/Main.js
+	+ Created source/Game.js
+	+ Created source/Entity.js
+	+ Created source/Entities/Player.js
+	+ Created source/Util.js
+- Added Settings to Game
+	+ BackgroundColor
+- Added Entities
+	+ Player
+	+ HurtBox
+	+ Particle
+- Added abilities for the Player
+	+ Movement
+	+ Dash
+- Added elements
+	+ Collision system for Entities
+
+// 05/25/2024
+- Added Settings to Game
+	+ Controls
