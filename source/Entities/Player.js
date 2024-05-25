@@ -8,6 +8,7 @@ class Player extends Entity {
 
 		this.speed = this.default.speed;
 		this.dash = 100;
+		this.dashMax = 100;
 		this.glow = 0;
 	}
 
@@ -83,8 +84,6 @@ class Player extends Entity {
 		let keyUp = game.Input.isKeyDown(game.Settings.Controls.MoveUp);
 		let keyDown = game.Input.isKeyDown(game.Settings.Controls.MoveDown);
 		let keySpace = game.Input.isKeyDown(game.Settings.Controls.Dash);
-
-		// console.log(keyLeft, keyRight, keyUp, keyDown);
 		
 		if (keySpace && this.dash > 0) {
 			this.speed = 15;
@@ -105,11 +104,11 @@ class Player extends Entity {
 			this.dash -= Math.abs(Math.sign(dirX)) + Math.abs(Math.sign(dirY));
 		}
 		
-		if (!keySpace && this.dash < 100) {
+		if (!keySpace && this.dash < this.dashMax) {
 			this.dash += 5;
 		}
 
-		if (this.dash > 100) this.dash = 100;
+		if (this.dash > this.dashMax) this.dash = this.dashMax;
 		
 		// ================ //
 		
@@ -122,30 +121,43 @@ class Player extends Entity {
 		let y = this.position.y;
 		let width = this.size.width;
 		let height = this.size.height;
-		// let rgb = rgbFromString(this.color);
-
-		// game.Context.fillStyle = "white";
-		// game.Context.beginPath();
-		// game.Context.arc(x + width / 2, y + height / 2, this.dash / width, 0, 2*Math.PI);
-		// game.Context.fill();
-		// game.Context.closePath();
 
 		game.Context.fillStyle = this.color;
 		game.Context.fillRect(x, y, width, height);
 
-		if (this.dash < 100) {
-			// game.Context.globalCompositeOperation = "source-in";
+		if (this.dash < this.dashMax) {
+			// console.log(this.dash / (this.dashMax / width));
 			game.Context.fillStyle = "rgba(255,255,255,0.5)";
-			game.Context.fillRect(x, y, this.dash / 2, height);
-			// game.Context.globalCompositeOperation = "source-over";
+			game.Context.fillRect(x, y, this.dash / (this.dashMax / width), height);
 		}
-		
-		// let rgb = rgbFromString(this.color);
-		// let glow = Math.sin(this.glow / 50) * 10 + (10 * Math.sign(this.glow));
-		// game.Context.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.25)`;
-		// game.Context.fillRect(x - glow, y - glow, width + glow * 2, height + glow * 2);
 
 		game.Context.fillStyle = "white";
-		game.Context.fillText(`${this.dash}/100`, 0, 10);
+		game.Context.fillText(`${this.dash}/${this.dashMax}`, 0, 10);
+
+		let color = this.color;
+
+		if (this.glow) {
+			let Step = function () {
+				if (!this.alpha) this.alpha = 0.75;
+
+				this.alpha -= 0.075;
+
+				if (this.alpha <= 0) {
+					this.Destroy();
+				}
+				
+				let rgb = rgbFromString(this.color);
+				this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
+			}
+
+			game.Objects.push(
+				new Particle(
+					{x, y},
+					{width, height},
+					color,
+					Step
+				)
+			);
+		}
 	}
 }

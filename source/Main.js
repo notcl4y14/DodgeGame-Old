@@ -19,7 +19,7 @@ window.onload = () => {
 	game.Objects.push(
 		new Player(
 			{x:50, y:50},
-			{width:50, height:50},
+			{width:25, height:25},
 			`rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`
 		)
 	)

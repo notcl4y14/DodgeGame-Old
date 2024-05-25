@@ -1,3 +1,13 @@
+// 05/25/2024
+- Changed the Player's properties
+	+ Size to 25x25
+- Added properties to Player
+	+ Added dashMax
+- Added Trail effect to Player (When dashing)
+=============
+- Added Settings to Game
+	+ Controls
+
 // 05/24/2024
 - Created files
 	+ Created index.html
@@ -17,7 +27,3 @@
 	+ Dash
 - Added elements
 	+ Collision system for Entities
-
-// 05/25/2024
-- Added Settings to Game
-	+ Controls
