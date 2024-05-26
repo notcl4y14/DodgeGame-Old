@@ -95,6 +95,20 @@ class Game {
 
 	// ============================== //
 	
+	updateObjects () {
+		this.Objects.forEach(ent => {
+			ent.PreStep();
+		});
+		this.Objects.forEach(ent => {
+			ent.Step();
+		});
+		this.Objects.forEach(ent => {
+			ent.PostStep();
+		});
+	}
+
+	// ============================== //
+	
 	update () {
 		if (this.State == Game.State.GameOver) {
 			if (game.Input.isKeyDown("KeyR")) {
@@ -105,15 +119,7 @@ class Game {
 			}
 		}
 		
-		this.Objects.forEach(ent => {
-			ent.PreStep();
-		});
-		this.Objects.forEach(ent => {
-			ent.Step();
-		});
-		this.Objects.forEach(ent => {
-			ent.PostStep();
-		});
+		this.updateObjects();
 	}
 	
 	draw () {

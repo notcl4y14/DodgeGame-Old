@@ -53,7 +53,7 @@ HurtBox.DVD = class extends HurtBox {
 			}
 			
 			let rgb = rgbFromString(this.color);
-			this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
+			this.color = `rgba(${rgb.r},${rgb.g},${rgb.b},${this.alpha})`;
 		}
 
 		game.spawn(

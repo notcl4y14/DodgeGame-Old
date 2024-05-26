@@ -45,7 +45,7 @@ class Player extends Entity {
 						this.position.y += this.velY;
 						
 						let rgb = rgbFromString(this.color);
-						this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
+						this.color = `rgba(${rgb.r},${rgb.g},${rgb.b},${this.alpha})`;
 					}
 
 					game.Objects.push(
@@ -132,7 +132,7 @@ class Player extends Entity {
 				}
 				
 				let rgb = rgbFromString(this.color);
-				this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
+				this.color = `rgba(${rgb.r},${rgb.g},${rgb.b},${this.alpha})`;
 			}
 
 			game.Objects.push(

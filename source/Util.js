@@ -1,4 +1,17 @@
+Math.randomInt = function (min, max) {
+	max += 1;
+	return Math.floor( Math.random() * (max - min) + min );
+}
+
 let rgbFromString = function(str) {
+	if (str.substring(0, 3) == "rgb") {
+		return rgbfsRGB(str);
+	} else if (str[0] == "#") {
+		return rgbfsHex(str);
+	}
+}
+
+let rgbfsRGB = function (str) {
 	let r = 0;
 	let g = 0;
 	let b = 0;
@@ -42,7 +55,23 @@ let rgbFromString = function(str) {
 		}
 	}
 
-	return [r, g, b];
+	return {r, g, b};
+}
+
+let rgbfsHex = function (str) {
+	// https://stackoverflow.com/a/5624139/22146374
+	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	str = str.replace(shorthandRegex, function(m, r, g, b) {
+	  return r + r + g + g + b + b;
+	});
+  
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(str);
+	return result ? {
+	  r: parseInt(result[1], 16),
+	  g: parseInt(result[2], 16),
+	  b: parseInt(result[3], 16)
+	} : null;
 }
 
 // https://love2d.org/wiki/BoundingBox.lua
