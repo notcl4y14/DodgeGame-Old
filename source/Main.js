@@ -1,90 +1,57 @@
-window.onload = () => {
+let game = new Game();
 
-	// For some reason Space interrupts Arrows from being used simultaneously.
-	// So you cannot Dash diagonally with Arrows and Space.
-
-	// let changeControls = confirm ("The current controls for moving are WASD and Space. Do you want to change it to arrows and Z?");
-	// if (changeControls) {
-	// 	game.Settings.Controls.MoveLeft = "ArrowLeft";
-	// 	game.Settings.Controls.MoveRight = "ArrowRight";
-	// 	game.Settings.Controls.MoveUp = "ArrowUp";
-	// 	game.Settings.Controls.MoveDown = "ArrowDown";
-	// 	game.Settings.Controls.Dash = "KeyZ";
-	// }
-	// alert("In case you want to change controls:\n1. Ctrl+Shift+I\n2. Open Console\n3. game.Settings.Controls.MoveLeft = \"KeyA\"\n\nTo check controls: game.Settings.Controls");
-
+let initGameCanvas = function () {
 	game.Canvas = document.querySelector("canvas");
 	game.Context = game.Canvas.getContext("2d");
+}
 
-	game.Objects.push(
-		new Player(
-			{x:50, y:50},
-			{width:25, height:25},
-			`rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`
-		)
-	)
-	
-	game.SpawnQueue.add( () => {
-		let pos = {x:500, y:100};
-		let size = {width:50, height:50};
-		let color = `rgb(255,0,0)`;
-		let hurtBox = new HurtBox(pos, size, color)
+let initPlayer = function () {
+	let pos = {x:50, y:50};
+	let size = {width:25, height:25};
+	let color = `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`;
 
-		let index = game.spawn(hurtBox);
+	game.spawn( new Player(pos, size, color) );
+}
 
-		game.Objects[index].Step = function () {
-			if (!this.startPos) this.startPos = Object.create(this.position);
-	
-			this.position.x = this.startPos.x + Math.sin(game.Ticks / 20) * 2;
-	
-			let x = this.position.x;
-			let y = this.position.y;
-			let width = this.size.width;
-			let height = this.size.height;
-			let color = this.color;
-	
-			let Step = function () {
-				if (!this.alpha) this.alpha = 0.75;
-	
-				this.alpha -= 0.075;
-	
-				if (this.alpha <= 0) {
-					this.Destroy();
-				}
-				
-				let rgb = rgbFromString(this.color);
-				this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
-			}
-	
-			game.spawn(
-				new Particle(
-					{x, y},
-					{width, height},
-					color,
-					Step
-				)
-			);
-		}
-	}, 500 );
+let initLevel = function () {
+	for (let i = 0; i < 25; i++) {
+		let x = Math.floor(Math.random() * window.innerWidth);
+		let y = Math.floor(Math.random() * window.innerHeight);
 
-	game.SpawnQueue.add( () => {
-		let pos = {x:500, y:500};
-		let size = {width:50, height:50};
-		let color = `rgb(255,0,0)`;
-		let vel = {
-			x: 5,
-			y: -5
-		};
-		let duration = 75*10;
-		let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
+		game.SpawnQueue.add( () => {
+			let pos = {x, y};
+			let size = {width:25, height:25};
+			let color = `rgb(255,0,0)`;
+			let vel = {x: 5, y: 5};
+			let duration = 75*10;
 
-		game.spawn(hurtBox);
-	}, 500 );
+			let randX = Math.floor(Math.random() * 2);
+			let randY = Math.floor(Math.random() * 2);
+
+			if (randX) vel.x *= -1;
+			if (randY) vel.y *= -1;
+
+			let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
+	
+			game.spawn(hurtBox);
+		}, 250 );
+	}
+}
+
+let init = function () {
+	initGameCanvas();
+	initPlayer();
+	initLevel();
 
 	game.SpawnQueue.start();
+	game.running = true;
 
 	game.resizeCanvas();
-	game.tick();
+	game.loop();
+}
+
+window.onload = () => {
+	init();
 }
 
 window.onresize = () => {

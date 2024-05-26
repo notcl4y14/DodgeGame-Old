@@ -1,4 +1,11 @@
 // 05/26/2024
+- Added Game States
+	+ MainMenu
+	+ Play
+	+ GameOver
+- Changed the level
+- Somehow reinitializing the Game class makes it faster and HurtBoxes won't spawn
+=============
 - Added a "Wall-Bound" variation of the HurtBox
 =============
 - Added (Spawn) Queue

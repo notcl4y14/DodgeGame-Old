@@ -29,31 +29,17 @@ class Player extends Entity {
 
 					// Try "let velX = partX - (partsX / 2.5) * (partX * 2.5);"
 					// And touch the HurtBox :P
-					
-					// let velX = Math.floor(Math.random() * 2);
-					// let velY = Math.floor(Math.random() * 2);
 
 					let Step = function () {
-						// if (!this.ticks) this.ticks = 0;
 						if (!this.alpha) this.alpha = 1;
 						if (!this.velX) this.velX = velX;
 						if (!this.velY) this.velY = velY;
 
-						// this.ticks++;
 						this.alpha -= 0.0075;
-
-						// if (this.ticks > 200) {
-						// 	this.Destroy();
-						// }
 
 						if (this.alpha < 0) {
 							this.Destroy();
 						}
-
-						// let alpha = 1 / this.ticks;
-						// if (alpha == Infinity) {
-						// 	alpha = 0.1;
-						// }
 
 						this.position.x += this.velX;
 						this.position.y += this.velY;
@@ -73,8 +59,8 @@ class Player extends Entity {
 				}
 			}
 
-			this.position.x = 0;
-			this.position.y = 0;
+			this.Destroy();
+			game.State = Game.State.GameOver;
 		}
 	}
 	
@@ -126,7 +112,6 @@ class Player extends Entity {
 		game.Context.fillRect(x, y, width, height);
 
 		if (this.dash < this.dashMax) {
-			// console.log(this.dash / (this.dashMax / width));
 			game.Context.fillStyle = "rgba(255,255,255,0.5)";
 			game.Context.fillRect(x, y, this.dash / (this.dashMax / width), height);
 		}
