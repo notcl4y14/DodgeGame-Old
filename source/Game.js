@@ -22,6 +22,7 @@ let game = {
 	// ============================== //
 	
 	Objects: [],
+	SpawnQueue: new Queue(),
 
 	// ============================== //
 	
@@ -47,6 +48,11 @@ game.Input.isKeyUp = function(key) {
 game.resizeCanvas = function() {
 	this.Canvas.width = window.innerWidth;
 	this.Canvas.height = window.innerHeight;
+}
+
+game.spawn = function(v) {
+	let index = this.Objects.push(v);
+	return index - 1;
 }
 
 // ============================== //

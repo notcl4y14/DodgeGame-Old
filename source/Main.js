@@ -23,47 +23,66 @@ window.onload = () => {
 			`rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`
 		)
 	)
-	game.Objects.push(
-		new HurtBox(
-			{x:500, y:100},
-			{width:50, height:50},
-			`rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`
-		)
-	)
+	
+	game.SpawnQueue.add( () => {
+		let pos = {x:500, y:100};
+		let size = {width:50, height:50};
+		let r = Math.floor(Math.random() * 255);
+		let g = Math.floor(Math.random() * 255);
+		let b = Math.floor(Math.random() * 255);
+		let color = `rgb(${r},${g},${b})`;
+		let hurtBox = new HurtBox(pos, size, color)
 
-	game.Objects[1].Step = function () {
-		if (!this.startPos) this.startPos = Object.create(this.position);
+		let index = game.spawn(hurtBox);
 
-		this.position.x = this.startPos.x + Math.sin(game.Ticks / 20) * 2;
-
-		let x = this.position.x;
-		let y = this.position.y;
-		let width = this.size.width;
-		let height = this.size.height;
-		let color = this.color;
-
-		let Step = function () {
-			if (!this.alpha) this.alpha = 0.75;
-
-			this.alpha -= 0.075;
-
-			if (this.alpha <= 0) {
-				this.Destroy();
+		game.Objects[index].Step = function () {
+			if (!this.startPos) this.startPos = Object.create(this.position);
+	
+			this.position.x = this.startPos.x + Math.sin(game.Ticks / 20) * 2;
+	
+			let x = this.position.x;
+			let y = this.position.y;
+			let width = this.size.width;
+			let height = this.size.height;
+			let color = this.color;
+	
+			let Step = function () {
+				if (!this.alpha) this.alpha = 0.75;
+	
+				this.alpha -= 0.075;
+	
+				if (this.alpha <= 0) {
+					this.Destroy();
+				}
+				
+				let rgb = rgbFromString(this.color);
+				this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
 			}
-			
-			let rgb = rgbFromString(this.color);
-			this.color = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${this.alpha})`;
+	
+			game.spawn(
+				new Particle(
+					{x, y},
+					{width, height},
+					color,
+					Step
+				)
+			);
 		}
+	}, 500 );
 
-		game.Objects.push(
-			new Particle(
-				{x, y},
-				{width, height},
-				color,
-				Step
-			)
-		);
-	}
+	game.SpawnQueue.add( () => {
+		let pos = {x:500, y:500};
+		let size = {width:50, height:50};
+		let r = Math.floor(Math.random() * 255);
+		let g = Math.floor(Math.random() * 255);
+		let b = Math.floor(Math.random() * 255);
+		let color = `rgb(${r},${g},${b})`;
+		let hurtBox = new HurtBox(pos, size, color)
+
+		game.spawn(hurtBox);
+	}, 500 );
+
+	game.SpawnQueue.start();
 
 	game.resizeCanvas();
 	game.tick();

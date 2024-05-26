@@ -1,3 +1,6 @@
+// 05/26/2024
+- Added (Spawn) Queue
+
 // 05/25/2024
 - Changed the Player's properties
 	+ Size to 25x25
