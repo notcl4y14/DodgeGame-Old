@@ -27,10 +27,7 @@ window.onload = () => {
 	game.SpawnQueue.add( () => {
 		let pos = {x:500, y:100};
 		let size = {width:50, height:50};
-		let r = Math.floor(Math.random() * 255);
-		let g = Math.floor(Math.random() * 255);
-		let b = Math.floor(Math.random() * 255);
-		let color = `rgb(${r},${g},${b})`;
+		let color = `rgb(255,0,0)`;
 		let hurtBox = new HurtBox(pos, size, color)
 
 		let index = game.spawn(hurtBox);
@@ -73,11 +70,13 @@ window.onload = () => {
 	game.SpawnQueue.add( () => {
 		let pos = {x:500, y:500};
 		let size = {width:50, height:50};
-		let r = Math.floor(Math.random() * 255);
-		let g = Math.floor(Math.random() * 255);
-		let b = Math.floor(Math.random() * 255);
-		let color = `rgb(${r},${g},${b})`;
-		let hurtBox = new HurtBox(pos, size, color)
+		let color = `rgb(255,0,0)`;
+		let vel = {
+			x: 5,
+			y: -5
+		};
+		let duration = 75*10;
+		let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
 
 		game.spawn(hurtBox);
 	}, 500 );

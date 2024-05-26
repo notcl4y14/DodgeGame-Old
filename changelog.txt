@@ -1,4 +1,6 @@
 // 05/26/2024
+- Added a "Wall-Bound" variation of the HurtBox
+=============
 - Added (Spawn) Queue
 
 // 05/25/2024
