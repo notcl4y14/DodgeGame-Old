@@ -214,6 +214,20 @@ class Game {
 			this.Context.fillStyle = "#ffffff";
 			this.Context.fillText("Press Space to start", centerW, centerH);
 			this.Context.font = oldFont;
+
+			this.Context.fillStyle = "#000000";
+			this.Context.fillRect(centerW + 100, centerH - 20, 75 * 2, 35 * 2);
+
+			this.Context.font = "20px sans-serif";
+			this.Context.textAlign = "center";
+			this.Context.fillStyle = "#ffffff";
+			this.Context.fillText("Controls", centerW + 175, centerH);
+			
+			this.Context.font = "15px sans-serif";
+			this.Context.textAlign = "left";
+			this.Context.fillText("WASD - Move", centerW + 105, centerH + 20);
+			this.Context.fillText("Space - Dash", centerW + 105, centerH + 40);
+			this.Context.font = oldFont;
 		}
 	}
 }

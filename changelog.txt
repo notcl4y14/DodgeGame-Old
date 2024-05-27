@@ -1,4 +1,6 @@
 // 05/27/2024
+- Added Controls instructions in Main Menu
+=============
 - Fixed objects in Queue won't spawn after it's finished
 =============
 - Added Main Menu
