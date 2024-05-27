@@ -16,9 +16,11 @@ class Queue {
 
 	clear () {
 		this.queue = [];
+		this.index = 0;
 	}
 
 	step () {
+		// console.log(this.isFinished);
 		if (this.isFinished) {
 			return;
 		}
