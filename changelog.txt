@@ -1,3 +1,11 @@
+// 05/27/2024
+- Added Main Menu
+- Added a separate object array for particles
+	+ Particles will be now under the objects
+- Created Entities
+	+ TrailParticle
+	+ MovingTrailParticle
+
 // 05/26/2024
 - Added SpawnBox
 =============

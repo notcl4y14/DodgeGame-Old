@@ -14,6 +14,8 @@ let initPlayer = function () {
 }
 
 let initLevel = function () {
+	game.SpawnQueue.clear();
+
 	for (let i = 0; i < 25; i++) {
 		let x = Math.floor(Math.random() * window.innerWidth);
 		let y = Math.floor(Math.random() * window.innerHeight);
@@ -34,17 +36,14 @@ let initLevel = function () {
 			let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
 			let spawnBox = new SpawnBox(pos, size, 50, hurtBox);
 
-			game.spawn(spawnBox);
-		}, 250 );
+			game.spawnParticle(spawnBox);
+		}, 25 );
 	}
 }
 
 let init = function () {
 	initGameCanvas();
-	initPlayer();
-	initLevel();
 
-	game.SpawnQueue.start();
 	game.running = true;
 
 	game.resizeCanvas();

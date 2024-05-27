@@ -3,7 +3,7 @@ class Game {
 		this.Canvas = null;
 		this.Context = null;
 
-		this.State = Game.State.Play;
+		this.State = Game.State.MainMenu;
 
 		this.Settings = {
 			BackgroundColor: "rgb(10,10,10)",
@@ -19,6 +19,7 @@ class Game {
 		this.Input = new Input();
 
 		this.Objects = [];
+		this.Particles = [];
 		this.SpawnQueue = new Queue();
 
 		this.Ticks = 0;
@@ -44,6 +45,11 @@ class Game {
 	
 	spawn (v) {
 		let index = this.Objects.push(v);
+		return index - 1;
+	}
+	
+	spawnParticle (v) {
+		let index = this.Particles.push(v);
 		return index - 1;
 	}
 
@@ -96,6 +102,10 @@ class Game {
 	// ============================== //
 	
 	updateObjects () {
+		for (let particle of this.Particles) {
+			particle.Step();
+		}
+
 		this.Objects.forEach(ent => {
 			ent.PreStep();
 		});
@@ -111,13 +121,55 @@ class Game {
 	
 	update () {
 		if (this.State == Game.State.GameOver) {
-			if (game.Input.isKeyDown("KeyR")) {
+			if (this.Input.isKeyDown("KeyR")) {
 				// Resets the game
 				// game = new Game();
 				this.restart();
 				return;
 			}
+		} else if (this.State == Game.State.MainMenu) {
+			if (this.Input.isKeyDown("Space")) {
+				this.State = Game.State.Play;
+				
+				this.Particles = []; // Remove this line if you want the HurtBoxes from the MainMenu to be in game
+				this.SpawnQueue.clear();
+				initPlayer();
+				initLevel();
+			
+				return;
+			}
+
+			if (this.SpawnQueue.queue.length == 0) {
+				for (let i = 0; i < 25; i++) {
+					let x = Math.floor(Math.random() * window.innerWidth);
+					let y = Math.floor(Math.random() * window.innerHeight);
+
+					this.SpawnQueue.add( () => {
+						let pos = {x, y};
+						let size = {width:25, height:25};
+						let color = `rgb(255,0,0)`;
+						let vel = {x: 5, y: 5};
+						let duration = 75*10;
+		
+						let randX = Math.randomInt(0, 1);
+						let randY = Math.randomInt(0, 1);
+		
+						if (randX) vel.x *= -1;
+						if (randY) vel.y *= -1;
+		
+						let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
+	
+						hurtBox.onDurationFinish = function () {
+							this.boundOnWalls = false;
+						}
+		
+						this.spawnParticle(hurtBox);
+					}, 25 );
+				}
+			}
 		}
+	
+		this.SpawnQueue.step();
 		
 		this.updateObjects();
 	}
@@ -125,6 +177,10 @@ class Game {
 	draw () {
 		this.Context.fillStyle = this.Settings.BackgroundColor;
 		this.Context.fillRect(0, 0, this.Canvas.width, this.Canvas.height);
+		
+		this.Particles.forEach(ent => {
+			ent.Draw();
+		});
 		
 		this.Objects.forEach(ent => {
 			ent.Draw();
@@ -145,6 +201,19 @@ class Game {
 			this.Context.font = oldFont;
 			
 			this.Context.fillText("Press R to restart", centerW, centerH + 12.5);
+		} else if (this.State == Game.State.MainMenu) {
+			let centerW = game.Canvas.width / 2;
+			let centerH = game.Canvas.height / 2;
+
+			this.Context.fillStyle = "#000000";
+			this.Context.fillRect(centerW - 75, centerH - 20, 75 * 2, 20 * 2);
+
+			let oldFont = this.Context.font;
+			this.Context.font = "15px sans-serif";
+			this.Context.textAlign = "center";
+			this.Context.fillStyle = "#ffffff";
+			this.Context.fillText("Press Space to start", centerW, centerH);
+			this.Context.font = oldFont;
 		}
 	}
 }

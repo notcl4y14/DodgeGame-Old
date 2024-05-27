@@ -2,6 +2,7 @@ class Queue {
 	constructor () {
 		this.queue = [];
 		this.index = 0;
+		this.timer = 0;
 	}
 
 	get isFinished () {
@@ -17,7 +18,7 @@ class Queue {
 		this.queue = [];
 	}
 
-	async start () {
+	step () {
 		if (this.isFinished) {
 			return;
 		}
@@ -25,13 +26,15 @@ class Queue {
 		let element = this.queue[this.index];
 		
 		// https://stackoverflow.com/a/7137404/22146374
-		await new Promise(resolve => {
-			window.setTimeout( resolve, element.time );
-		} );
-		element.func();
 
-		this.index++;
-		this.start();
+		this.timer++;
+
+		if (this.timer > element.time) {
+			element.func();
+
+			this.timer = 0;
+			this.index++;
+		}
 	}
 }
 

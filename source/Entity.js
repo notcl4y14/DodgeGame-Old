@@ -12,6 +12,13 @@ class Entity {
 
 	Destroy () {
 		let index = game.Objects.indexOf(this);
+		
+		if (index == -1) {
+			index = game.Particles.indexOf(this);
+			game.Particles.splice(index, 1);
+			return;
+		}
+		
 		game.Objects.splice(index, 1);
 	}
 

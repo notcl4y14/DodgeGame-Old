@@ -30,30 +30,13 @@ class Player extends Entity {
 					// Try "let velX = partX - (partsX / 2.5) * (partX * 2.5);"
 					// And touch the HurtBox :P
 
-					let Step = function () {
-						if (!this.alpha) this.alpha = 1;
-						if (!this.velX) this.velX = velX;
-						if (!this.velY) this.velY = velY;
-
-						this.alpha -= 0.0075;
-
-						if (this.alpha < 0) {
-							this.Destroy();
-						}
-
-						this.position.x += this.velX;
-						this.position.y += this.velY;
-						
-						let rgb = rgbFromString(this.color);
-						this.color = `rgba(${rgb.r},${rgb.g},${rgb.b},${this.alpha})`;
-					}
-
-					game.Objects.push(
-						new Particle(
+					game.spawnParticle(
+						new MovingTrailParticle(
 							{x, y},
 							{width, height},
 							color,
-							Step
+							velX,
+							velY
 						)
 					);
 				}
@@ -117,30 +100,17 @@ class Player extends Entity {
 		}
 
 		game.Context.fillStyle = "white";
+		game.Context.textAlign = "left";
 		game.Context.fillText(`${this.dash}/${this.dashMax}`, 0, 10);
 
 		let color = this.color;
 
 		if (this.glow) {
-			let Step = function () {
-				if (!this.alpha) this.alpha = 0.75;
-
-				this.alpha -= 0.075;
-
-				if (this.alpha <= 0) {
-					this.Destroy();
-				}
-				
-				let rgb = rgbFromString(this.color);
-				this.color = `rgba(${rgb.r},${rgb.g},${rgb.b},${this.alpha})`;
-			}
-
-			game.Objects.push(
-				new Particle(
+			game.spawn(
+				new TrailParticle(
 					{x, y},
 					{width, height},
-					color,
-					Step
+					color
 				)
 			);
 		}

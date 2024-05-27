@@ -8,8 +8,14 @@ HurtBox.DVD = class extends HurtBox {
 	constructor (pos, size, color, vel, duration) {
 		super(pos, size, color);
 		this.vel = vel;
+		this.boundOnWalls = true;
+		this.destroyOutOfBounds = true;
 		this.duration = duration;
 		this.ticks = 0;
+	}
+
+	onDurationFinish () {
+		this.Destroy();
 	}
 
 	Step () {
@@ -18,23 +24,37 @@ HurtBox.DVD = class extends HurtBox {
 
 		this.ticks++;
 		if (this.ticks >= this.duration) {
-			this.Destroy();
+			this.onDurationFinish();
 		}
 
-		if (this.position.x < 0) {
-			this.position.x = 0;
-			this.vel.x = Math.abs(this.vel.x);
-		} else if (this.position.x > game.Canvas.width - this.size.width) {
-			this.position.x = game.Canvas.width - this.size.width;
-			this.vel.x = -Math.abs(this.vel.x);
+		if (this.boundOnWalls) {
+			if (this.position.x < 0) {
+				this.position.x = 0;
+				this.vel.x = Math.abs(this.vel.x);
+			} else if (this.position.x > game.Canvas.width - this.size.width) {
+				this.position.x = game.Canvas.width - this.size.width;
+				this.vel.x = -Math.abs(this.vel.x);
+			}
+	
+			if (this.position.y < 0) {
+				this.position.y = 0;
+				this.vel.y = Math.abs(this.vel.y);
+			} else if (this.position.y > game.Canvas.height - this.size.height) {
+				this.position.y = game.Canvas.height - this.size.height;
+				this.vel.y = -Math.abs(this.vel.y);
+			}
 		}
 
-		if (this.position.y < 0) {
-			this.position.y = 0;
-			this.vel.y = Math.abs(this.vel.y);
-		} else if (this.position.y > game.Canvas.height - this.size.height) {
-			this.position.y = game.Canvas.height - this.size.height;
-			this.vel.y = -Math.abs(this.vel.y);
+		if (this.destroyOutOfBounds) {
+			if (this.position.x < 0 - this.size.width || this.position.x > game.Canvas.width) {
+				this.Destroy();
+				return;
+			}
+	
+			if (this.position.y < 0 - this.size.height || this.position.y > game.Canvas.height) {
+				this.Destroy();
+				return;
+			}
 		}
 
 		let x = this.position.x;
@@ -42,26 +62,12 @@ HurtBox.DVD = class extends HurtBox {
 		let width = this.size.width;
 		let height = this.size.height;
 		let color = this.color;
-
-		let Step = function () {
-			if (!this.alpha) this.alpha = 0.75;
-
-			this.alpha -= 0.075;
-
-			if (this.alpha <= 0) {
-				this.Destroy();
-			}
-			
-			let rgb = rgbFromString(this.color);
-			this.color = `rgba(${rgb.r},${rgb.g},${rgb.b},${this.alpha})`;
-		}
-
-		game.spawn(
-			new Particle(
+		
+		game.spawnParticle(
+			new TrailParticle(
 				{x, y},
 				{width, height},
-				color,
-				Step
+				color
 			)
 		);
 	}
