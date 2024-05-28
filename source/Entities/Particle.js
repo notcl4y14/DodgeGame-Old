@@ -11,11 +11,11 @@ class TrailParticle extends Particle {
 		this.decrement = decrement;
 	}
 
-	Step () {
+	step () {
 		this.alpha -= this.decrement;
 
 		if (this.alpha <= 0) {
-			this.Destroy();
+			this.destroy();
 		}
 		
 		let rgb = rgbFromString(this.color);
@@ -32,11 +32,11 @@ class MovingTrailParticle extends Particle {
 		this.decrement = decrement;
 	}
 
-	Step () {
+	step () {
 		this.alpha -= this.decrement;
 
 		if (this.alpha <= 0) {
-			this.Destroy();
+			this.destroy();
 		}
 
 		this.position.x += this.velX;

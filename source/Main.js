@@ -1,8 +1,8 @@
 let game = new Game();
 
 let initGameCanvas = function () {
-	game.Canvas = document.querySelector("canvas");
-	game.Context = game.Canvas.getContext("2d");
+	game.canvas = document.querySelector("canvas");
+	game.context = game.canvas.getContext("2d");
 }
 
 let initPlayer = function () {
@@ -14,13 +14,13 @@ let initPlayer = function () {
 }
 
 let initLevel = function () {
-	game.SpawnQueue.clear();
+	game.spawnQueue.clear();
 
 	for (let i = 0; i < 25; i++) {
 		let x = Math.floor(Math.random() * window.innerWidth);
 		let y = Math.floor(Math.random() * window.innerHeight);
 
-		game.SpawnQueue.add( () => {
+		game.spawnQueue.add( () => {
 			let pos = {x, y};
 			let size = {width:25, height:25};
 			let color = `rgb(255,0,0)`;
@@ -43,6 +43,7 @@ let initLevel = function () {
 
 let init = function () {
 	initGameCanvas();
+	game.setState(Game.State.MainMenu);
 
 	game.running = true;
 
@@ -59,9 +60,23 @@ window.onresize = () => {
 }
 
 window.onkeydown = (key) => {
-	game.Input.Keys[key.code] = true;
+	game.input.keys[key.code] = 0;
+	game.input.updateKey(key.code);
 }
 
 window.onkeyup = (key) => {
-	game.Input.Keys[key.code] = false;
+	game.input.keys[key.code] = -1;
+}
+
+window.onmousemove = (mouse) => {
+	game.input.mouse.x = mouse.x;
+	game.input.mouse.y = mouse.y;
+}
+
+window.onmousedown = (mouse) => {
+	game.input.mouse.buttons[mouse.which] = true;
+}
+
+window.onmouseup = (mouse) => {
+	game.input.mouse.buttons[mouse.which] = false;
 }

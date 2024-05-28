@@ -15,10 +15,10 @@ HurtBox.DVD = class extends HurtBox {
 	}
 
 	onDurationFinish () {
-		this.Destroy();
+		this.destroy();
 	}
 
-	Step () {
+	step () {
 		this.position.x += this.vel.x;
 		this.position.y += this.vel.y;
 
@@ -31,28 +31,28 @@ HurtBox.DVD = class extends HurtBox {
 			if (this.position.x < 0) {
 				this.position.x = 0;
 				this.vel.x = Math.abs(this.vel.x);
-			} else if (this.position.x > game.Canvas.width - this.size.width) {
-				this.position.x = game.Canvas.width - this.size.width;
+			} else if (this.position.x > game.canvas.width - this.size.width) {
+				this.position.x = game.canvas.width - this.size.width;
 				this.vel.x = -Math.abs(this.vel.x);
 			}
 	
 			if (this.position.y < 0) {
 				this.position.y = 0;
 				this.vel.y = Math.abs(this.vel.y);
-			} else if (this.position.y > game.Canvas.height - this.size.height) {
-				this.position.y = game.Canvas.height - this.size.height;
+			} else if (this.position.y > game.canvas.height - this.size.height) {
+				this.position.y = game.canvas.height - this.size.height;
 				this.vel.y = -Math.abs(this.vel.y);
 			}
 		}
 
 		if (this.destroyOutOfBounds) {
-			if (this.position.x < 0 - this.size.width || this.position.x > game.Canvas.width) {
-				this.Destroy();
+			if (this.position.x < 0 - this.size.width || this.position.x > game.canvas.width) {
+				this.destroy();
 				return;
 			}
 	
-			if (this.position.y < 0 - this.size.height || this.position.y > game.Canvas.height) {
-				this.Destroy();
+			if (this.position.y < 0 - this.size.height || this.position.y > game.canvas.height) {
+				this.destroy();
 				return;
 			}
 		}

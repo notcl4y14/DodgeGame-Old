@@ -1,3 +1,11 @@
+// 05/28/2024
+- The Player is now able to recharge the dash when not moving but still holding space
+- The game now saves controls to the local storage upon changing them
+- The game now actually restarts instead of reloading the page (this is the last change made btw)
+- Added Settings Menu
+	+ Controls
+- Fixed the "Game Over" panel's size and text position
+
 // 05/27/2024
 - Added Controls instructions in Main Menu
 =============

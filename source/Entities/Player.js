@@ -12,7 +12,7 @@ class Player extends Entity {
 		this.glow = 0;
 	}
 
-	OnCollisionEnter(ent) {
+	onCollisionEnter(ent) {
 		if (ent._.tags.includes("hurt")) {
 			let partsX = 4;
 			let partsY = 4;
@@ -42,17 +42,17 @@ class Player extends Entity {
 				}
 			}
 
-			this.Destroy();
-			game.State = Game.State.GameOver;
+			this.destroy();
+			game.state = Game.State.GameOver;
 		}
 	}
 	
-	PreStep() {
-		let keyLeft = game.Input.isKeyDown(game.Settings.Controls.MoveLeft);
-		let keyRight = game.Input.isKeyDown(game.Settings.Controls.MoveRight);
-		let keyUp = game.Input.isKeyDown(game.Settings.Controls.MoveUp);
-		let keyDown = game.Input.isKeyDown(game.Settings.Controls.MoveDown);
-		let keySpace = game.Input.isKeyDown(game.Settings.Controls.Dash);
+	preStep() {
+		let keyLeft = game.input.isKeyDown(game.settings.controls.MoveLeft);
+		let keyRight = game.input.isKeyDown(game.settings.controls.MoveRight);
+		let keyUp = game.input.isKeyDown(game.settings.controls.MoveUp);
+		let keyDown = game.input.isKeyDown(game.settings.controls.MoveDown);
+		let keySpace = game.input.isKeyDown(game.settings.controls.Dash);
 		
 		if (keySpace && this.dash > 0) {
 			this.speed = 15;
@@ -64,6 +64,7 @@ class Player extends Entity {
 
 		let dirX = keyRight - keyLeft;
 		let dirY = keyDown - keyUp;
+		let isMoving = dirX != 0 || dirY != 0;
 
 		// ================ //
 		// Dash
@@ -73,7 +74,7 @@ class Player extends Entity {
 			this.dash -= Math.abs(Math.sign(dirX)) + Math.abs(Math.sign(dirY));
 		}
 		
-		if (!keySpace && this.dash < this.dashMax) {
+		if (((!isMoving && keySpace) || (isMoving && !keySpace) || (!isMoving && !keySpace)) && this.dash < this.dashMax) {
 			this.dash += 5;
 		}
 
@@ -85,23 +86,23 @@ class Player extends Entity {
 		this.position.y += dirY * this.speed;
 	}
 	
-	Draw() {
+	draw() {
 		let x = this.position.x;
 		let y = this.position.y;
 		let width = this.size.width;
 		let height = this.size.height;
 
-		game.Context.fillStyle = this.color;
-		game.Context.fillRect(x, y, width, height);
+		game.context.fillStyle = this.color;
+		game.context.fillRect(x, y, width, height);
 
 		if (this.dash < this.dashMax) {
-			game.Context.fillStyle = "rgba(255,255,255,0.5)";
-			game.Context.fillRect(x, y, this.dash / (this.dashMax / width), height);
+			game.context.fillStyle = "rgba(255,255,255,0.5)";
+			game.context.fillRect(x, y, this.dash / (this.dashMax / width), height);
 		}
 
-		game.Context.fillStyle = "white";
-		game.Context.textAlign = "left";
-		game.Context.fillText(`${this.dash}/${this.dashMax}`, 0, 10);
+		game.context.fillStyle = "white";
+		game.context.textAlign = "left";
+		game.context.fillText(`${this.dash}/${this.dashMax}`, 0, 10);
 
 		let color = this.color;
 

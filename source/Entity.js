@@ -10,32 +10,32 @@ class Entity {
 		};
 	}
 
-	Destroy () {
-		let index = game.Objects.indexOf(this);
+	destroy () {
+		let index = game.objects.indexOf(this);
 		
 		if (index == -1) {
-			index = game.Particles.indexOf(this);
-			game.Particles.splice(index, 1);
+			index = game.particles.indexOf(this);
+			game.particles.splice(index, 1);
 			return;
 		}
 		
-		game.Objects.splice(index, 1);
+		game.objects.splice(index, 1);
 	}
 
-	PreStep() {}
-	Step() {}
-	PostStep() {}
+	preStep() {}
+	step() {}
+	postStep() {}
 
-	OnCollisionEnter(other) {}
-	OnCollisionLeave(other) {}
+	onCollisionEnter(other) {}
+	onCollisionLeave(other) {}
 
-	Draw() {
+	draw() {
 		let x = this.position.x;
 		let y = this.position.y;
 		let width = this.size.width;
 		let height = this.size.height;
 
-		game.Context.fillStyle = this.color;
-		game.Context.fillRect(x, y, width, height);
+		game.context.fillStyle = this.color;
+		game.context.fillRect(x, y, width, height);
 	}
 }

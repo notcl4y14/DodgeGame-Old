@@ -6,25 +6,25 @@ class SpawnBox extends Entity {
 		this.entity = entity;
 	}
 
-	Step () {
+	step () {
 		this.extraSize--;
 
 		if (this.extraSize < 0) {
-			this.Destroy();
+			this.destroy();
 			game.spawn(this.entity);
 		}
 	}
 
-	Draw () {
+	draw () {
 		let x = this.position.x - this.extraSize / 2;
 		let y = this.position.y - this.extraSize / 2;
 		let width = this.size.width + this.extraSize;
 		let height = this.size.height + this.extraSize;
 
-		game.Context.fillStyle = this.color;
-		game.Context.fillRect(x, y, width, height);
+		game.context.fillStyle = this.color;
+		game.context.fillRect(x, y, width, height);
 
-		game.Context.strokeStyle = "#000000";
-		game.Context.strokeRect(this.position.x, this.position.y, this.size.width, this.size.height);
+		game.context.strokeStyle = "#000000";
+		game.context.strokeRect(this.position.x, this.position.y, this.size.width, this.size.height);
 	}
 }
