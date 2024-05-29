@@ -43,7 +43,7 @@ class Player extends Entity {
 			}
 
 			this.destroy();
-			game.state = Game.State.GameOver;
+			game.setState(Game.State.GameOver);
 		}
 	}
 	
@@ -102,7 +102,7 @@ class Player extends Entity {
 
 		game.context.fillStyle = "white";
 		game.context.textAlign = "left";
-		game.context.fillText(`${this.dash}/${this.dashMax}`, 0, 10);
+		game.context.fillText(`${this.dash}/${this.dashMax}`, x, y - 10);
 
 		let color = this.color;
 

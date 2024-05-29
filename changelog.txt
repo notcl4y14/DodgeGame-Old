@@ -1,3 +1,12 @@
+// 05/29/2024
+- Added an external kind of state
+	+ Quittable
+- The Dash text now follows the player instead of being in the top-left corner of the screen
+- By holding Esc you can now quit to the Main Menu
+	+ In "Game Over" state it instantly quits to the Main Menu
+=============
+- The background HurtBoxes on Main Menu don't spawn randomly now
+
 // 05/28/2024
 - The Player is now able to recharge the dash when not moving but still holding space
 - The game now saves controls to the local storage upon changing them

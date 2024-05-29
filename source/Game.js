@@ -29,6 +29,35 @@ class Game {
 	}
 
 	static State = {
+		_Quittable: {
+			load: function (game) {
+				this.exitTime = 0;
+				this.exitTimeMax = 90;
+				this.showQuitText = true;
+			},
+
+			update: function (game) {
+				if (this.exitTime > this.exitTimeMax) {
+					game.restart();
+				}
+
+				if (game.input.isKeyDown("Escape")) {
+					this.exitTime++;
+				} else {
+					this.exitTime = 0;
+				}
+			},
+
+			draw: function (game) {
+				if (!this.showQuitText) return;
+				let fraction = this.exitTimeMax / this.exitTime;
+				let alpha = 1 / fraction;
+				game.context.textBaseline = "middle";
+				game.context.textAlign = "left";
+				game.context.fillStyle = `rgba(255,255,255,${alpha})`;
+				game.context.fillText(`Quitting to the Main Menu... (${this.exitTime}/${this.exitTimeMax})`, 0, window.innerHeight - 10);
+			}
+		},
 		MainMenu: {
 			load: (game) => {},
 
@@ -55,32 +84,99 @@ class Game {
 				}
 
 				if (game.spawnQueue.queue.length == 0) {
-					for (let i = 0; i < 25; i++) {
-						let x = Math.floor(Math.random() * window.innerWidth);
-						let y = Math.floor(Math.random() * window.innerHeight);
-
-						game.spawnQueue.add( () => {
-							let pos = {x, y};
-							let size = {width:25, height:25};
-							let color = `rgb(255,0,0)`;
-							let vel = {x: 5, y: 5};
-							let duration = 75*10;
-			
-							let randX = Math.randomInt(0, 1);
-							let randY = Math.randomInt(0, 1);
-			
-							if (randX) vel.x *= -1;
-							if (randY) vel.y *= -1;
-			
-							let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
-		
-							hurtBox.onDurationFinish = function () {
-								game.boundOnWalls = false;
-							}
-			
-							game.spawnParticle(hurtBox);
-						}, 25 );
+					let size = {width:50, height:25};
+					let color = `rgb(255,0,0)`;
+					let duration = 75*10;
+					let onDurationFinish = function () {
+						game.boundOnWalls = false;
 					}
+
+					// I have NO IDEA how the hurtboxes go off-sync from each other despite that they have been spawned in identical positions
+					// But by adding/subtracting them with 10 fixes it
+					// what
+
+					// Top-Left
+					game.spawnQueue.add( () => {
+						let hurtBox = new HurtBox.DVD(
+							{x: 0, y: 0},
+							size,
+							color, {x: 5, y: 5},
+							duration
+						);
+		
+						hurtBox.onDurationFinish = onDurationFinish;
+		
+						game.spawnParticle(hurtBox);
+					}, 25);
+
+					// Top-Right
+					game.spawnQueue.add( () => {
+						let hurtBox = new HurtBox.DVD(
+							{x: window.innerWidth - size.width + 10, y: 10},
+							size,
+							color, {x: -5, y: 5},
+							duration
+						);
+		
+						hurtBox.onDurationFinish = onDurationFinish;
+		
+						game.spawnParticle(hurtBox);
+					}, 0);
+
+					// Bottom-Left
+					game.spawnQueue.add( () => {
+						let hurtBox = new HurtBox.DVD(
+							{x: 0, y: window.innerHeight - size.height},
+							size,
+							color, {x: 5, y: -5},
+							duration
+						);
+		
+						hurtBox.onDurationFinish = onDurationFinish;
+		
+						game.spawnParticle(hurtBox);
+					}, 0);
+
+					// Bottom-Right
+					game.spawnQueue.add( () => {
+						let hurtBox = new HurtBox.DVD(
+							{x: window.innerWidth - size.width + 10, y: window.innerHeight - size.height - 10},
+							size,
+							color, {x: -5, y: -5},
+							duration
+						);
+		
+						hurtBox.onDurationFinish = onDurationFinish;
+		
+						game.spawnParticle(hurtBox);
+					}, 0);
+
+					// for (let i = 0; i < 25; i++) {
+					// 	let x = Math.floor(Math.random() * window.innerWidth);
+					// 	let y = Math.floor(Math.random() * window.innerHeight);
+
+					// 	game.spawnQueue.add( () => {
+					// 		let pos = {x, y};
+							// let size = {width:25, height:25};
+							// let color = `rgb(255,0,0)`;
+					// 		let vel = {x: 5, y: 5};
+							// let duration = 75*10;
+			
+					// 		let randX = Math.randomInt(0, 1);
+					// 		let randY = Math.randomInt(0, 1);
+			
+					// 		if (randX) vel.x *= -1;
+					// 		if (randY) vel.y *= -1;
+			
+					// 		let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
+		
+					// 		hurtBox.onDurationFinish = function () {
+					// 			game.boundOnWalls = false;
+					// 		}
+			
+					// 		game.spawnParticle(hurtBox);
+					// 	}, 25 );
+					// }
 				}
 
 				game.updateObjects();
@@ -276,17 +372,24 @@ class Game {
 			}
 		},
 		Play: {
-			load: (game) => {
+			include: {
+				"quit": "_Quittable"
+			},
+
+			load: function (game) {
 				game.objects = [];
 				game.particles = [];
 
 				initPlayer();
 				initLevel();
+
+				this.external.quit.load(game);
 			},
-			update: (game) => {
+			update: function (game) {
+				this.external.quit.update(game);
 				game.updateObjects();
 			},
-			draw: (game) => {
+			draw: function (game) {
 				game.particles.forEach(ent => {
 					ent.draw();
 				});
@@ -294,21 +397,35 @@ class Game {
 				game.objects.forEach(ent => {
 					ent.draw();
 				});
+
+				this.external.quit.draw(game);
 			}
 		},
 		GameOver: {
-			load: (game) => {},
-			update: (game) => {
+			include: {
+				"quit": "_Quittable"
+			},
+			
+			load: function (game) {
+				this.external.quit.load(game);
+				this.external.quit.exitTimeMax = 0;
+				this.external.quit.showQuitText = false;
+			},
+
+			update: function (game) {
 				if (game.input.isKeyDown("KeyR")) {
 					// Resets the game
 					// game = new Game();
-					game.restart();
+					// game.restart();
+					game.setState(Game.State.Play);
 					return;
 				}
 
+				this.external.quit.update(game);
+
 				game.updateObjects();
 			},
-			draw: (game) => {
+			draw: function (game) {
 				game.particles.forEach(ent => {
 					ent.draw();
 				});
@@ -334,6 +451,11 @@ class Game {
 				game.context.fillText("Press R to restart", centerW, centerH + 12.5);
 				
 				game.context.font = oldFont;
+				game.context.textAlign = "left";
+				game.context.textBaseline = "middle";
+				game.context.fillText("Press Esc to quit to the main menu", 0, window.innerHeight - 10);
+
+				this.external.quit.draw(game);
 			}
 		}
 	};
@@ -365,6 +487,15 @@ class Game {
 
 	setState (state) {
 		this.state = state;
+
+		if (this.state.include) {
+			this.state.external = {};
+			
+			for (let [key, value] of Object.entries(this.state.include)) {
+				this.state.external[key] = Game.State[value];
+			}
+		}
+
 		this.state.load(this);
 	}
 
