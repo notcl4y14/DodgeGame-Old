@@ -93,6 +93,11 @@ class Player extends Entity {
 
 		let color = this.color;
 
+		let x = this.position.x;
+		let y = this.position.y;
+		let width = this.size.width;
+		let height = this.size.height;
+
 		if (this.glow) {
 			game.spawnParticle(
 				new TrailParticle(

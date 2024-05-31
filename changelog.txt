@@ -1,4 +1,7 @@
 // 05/31/2024
+- Fixed a crash (error) by starting playing
+	+ The lines that spawn a particle has been moved from draw() to update() method and it failed to get the local variables
+=============
 - Fixed particles get drawn on top of the Dash text
 =============
 - Fixed the HurtBoxes on the Main Menu go off-sync
