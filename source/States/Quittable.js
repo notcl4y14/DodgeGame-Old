@@ -5,7 +5,7 @@ State.Quittable = class extends State {
 
 	load (game) {
 		this.exitTime = 0;
-		this.exitTimeMax = 90;
+		this.exitTimeMax = 50;
 		this.showQuitText = true;
 	}
 

@@ -1,4 +1,12 @@
 // 05/31/2024
+- Added categories for Settings
+	+ Controls
+	+ Customization
+- Added options
+	+ Choose Player's color
+	+ Choose Player's image
+- Changed the quit time from 90 ticks to 50 ticks
+=============
 - Fixed a crash (error) by starting playing
 	+ The lines that spawn a particle has been moved from draw() to update() method and it failed to get the local variables
 =============

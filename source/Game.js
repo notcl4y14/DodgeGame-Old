@@ -13,7 +13,9 @@ class Game {
 				MoveUp: "KeyW",
 				MoveDown: "KeyS",
 				Dash: "Space"
-			}
+			},
+			playerColor: `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`,
+			playerImage: new Image()
 		};
 
 		this.input = new Input();
@@ -64,6 +66,7 @@ class Game {
 	load () {
 		let localStorage = window.localStorage;
 		// localStorage.setItem("controls.MoveLeft", )
+		let settings = this.settings;
 		let controls = this.settings.controls;
 		
 		let setKey = function (key, item) {
@@ -76,6 +79,9 @@ class Game {
 		controls.MoveUp = setKey( controls.MoveUp, localStorage.getItem("controls.MoveUp") );
 		controls.MoveDown = setKey( controls.MoveDown, localStorage.getItem("controls.MoveDown") );
 		controls.Dash = setKey( controls.Dash, localStorage.getItem("controls.Dash") );
+
+		settings.playerColor = setKey( settings.playerColor, localStorage.getItem("player.color") );
+		settings.playerImage.src = setKey( settings.playerImage.src, localStorage.getItem("player.image") );
 	}
 
 	async loop () {

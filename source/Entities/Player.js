@@ -115,8 +115,12 @@ class Player extends Entity {
 		let width = this.size.width;
 		let height = this.size.height;
 
-		game.context.fillStyle = this.color;
-		game.context.fillRect(x, y, width, height);
+		if (game.settings.playerImage.width == 0) {
+			game.context.fillStyle = this.color;
+			game.context.fillRect(x, y, width, height);
+		} else {
+			game.context.drawImage(game.settings.playerImage, x, y, width, height);
+		}
 
 		if (this.dash < this.dashMax) {
 			game.context.fillStyle = "rgba(255,255,255,0.5)";

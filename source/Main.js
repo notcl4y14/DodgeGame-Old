@@ -8,7 +8,7 @@ let initGameCanvas = function () {
 let initPlayer = function () {
 	let pos = {x:50, y:50};
 	let size = {width:25, height:25};
-	let color = `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`;
+	let color = game.settings.playerColor;
 
 	game.spawn( new Player(pos, size, color) );
 }
