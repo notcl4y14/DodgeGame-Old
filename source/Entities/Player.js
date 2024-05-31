@@ -88,6 +88,20 @@ class Player extends Entity {
 		
 		this.position.x += dirX * this.speed;
 		this.position.y += dirY * this.speed;
+		
+		// ================ //
+
+		let color = this.color;
+
+		if (this.glow) {
+			game.spawnParticle(
+				new TrailParticle(
+					{x, y},
+					{width, height},
+					color
+				)
+			);
+		}
 	}
 	
 	draw() {
@@ -104,22 +118,8 @@ class Player extends Entity {
 			game.context.fillRect(x, y, this.dash / (this.dashMax / width), height);
 		}
 
-		// TODO: Fix the text somehow being drawn below the particles
-		// Although the particles should be drawn first and then the objects
 		game.context.fillStyle = "white";
 		game.context.textAlign = "center";
 		game.context.fillText(`${this.dash}/${this.dashMax}`, x + width / 2, y - 10);
-
-		let color = this.color;
-
-		if (this.glow) {
-			game.spawn(
-				new TrailParticle(
-					{x, y},
-					{width, height},
-					color
-				)
-			);
-		}
 	}
 }

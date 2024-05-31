@@ -1,4 +1,6 @@
 // 05/31/2024
+- Fixed particles get drawn on top of the Dash text
+=============
 - Fixed the HurtBoxes on the Main Menu go off-sync
 - Fixed the Wall-Bound HurtBoxes wouldn't go off-screen when its duration finishes
 - The HurtBoxes on the Main Menu are now 50x50 in size
