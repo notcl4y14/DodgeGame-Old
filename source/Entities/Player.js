@@ -64,21 +64,25 @@ class Player extends Entity {
 
 		let dirX = keyRight - keyLeft;
 		let dirY = keyDown - keyUp;
+		
 		let isMoving = dirX != 0 || dirY != 0;
 
 		// ================ //
 		// Dash
 		// ================ //
 
-		if (this.dash > 0) {
-			this.dash -= Math.abs(Math.sign(dirX)) + Math.abs(Math.sign(dirY));
+		// If using dash, decrease it
+		if (this.dash > 0 && keySpace && isMoving) {
+			this.dash -= 1;
 		}
 		
+		// Recharge the Dash
 		if (((!isMoving && keySpace) || (isMoving && !keySpace) || (!isMoving && !keySpace)) && this.dash < this.dashMax) {
 			this.dash += 5;
 		}
 
-		if (this.dash > this.dashMax) this.dash = this.dashMax;
+		// Cap the Dash charge
+		this.dash = Math.clamp(this.dash, 0, this.dashMax);
 		
 		// ================ //
 		
@@ -101,8 +105,8 @@ class Player extends Entity {
 		}
 
 		game.context.fillStyle = "white";
-		game.context.textAlign = "left";
-		game.context.fillText(`${this.dash}/${this.dashMax}`, x, y - 10);
+		game.context.textAlign = "center";
+		game.context.fillText(`${this.dash}/${this.dashMax}`, x + width / 2, y - 10);
 
 		let color = this.color;
 

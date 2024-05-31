@@ -1,3 +1,8 @@
+// 05/30/2024
+- The Dash doesn't go below zero now
+- The Dash now always decreases by 1 when used despite you're moving diagonally
+- The Dash text abive the player is aligned to the center now
+
 // 05/29/2024
 - Added an external kind of state
 	+ Quittable
