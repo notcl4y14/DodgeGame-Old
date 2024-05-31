@@ -43,7 +43,7 @@ let initLevel = function () {
 
 let init = function () {
 	initGameCanvas();
-	game.setState(Game.State.MainMenu);
+	game.setState(State.MainMenu);
 
 	game.running = true;
 

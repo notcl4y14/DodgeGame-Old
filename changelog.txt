@@ -1,3 +1,8 @@
+// 05/31/2024
+- Fixed the HurtBoxes on the Main Menu go off-sync
+- Fixed the Wall-Bound HurtBoxes wouldn't go off-screen when its duration finishes
+- The HurtBoxes on the Main Menu are now 50x50 in size
+
 // 05/30/2024
 - The Dash doesn't go below zero now
 - The Dash now always decreases by 1 when used despite you're moving diagonally

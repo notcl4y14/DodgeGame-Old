@@ -43,7 +43,7 @@ class Player extends Entity {
 			}
 
 			this.destroy();
-			game.setState(Game.State.GameOver);
+			game.setState(State.GameOver);
 		}
 	}
 	
@@ -104,6 +104,8 @@ class Player extends Entity {
 			game.context.fillRect(x, y, this.dash / (this.dashMax / width), height);
 		}
 
+		// TODO: Fix the text somehow being drawn below the particles
+		// Although the particles should be drawn first and then the objects
 		game.context.fillStyle = "white";
 		game.context.textAlign = "center";
 		game.context.fillText(`${this.dash}/${this.dashMax}`, x + width / 2, y - 10);

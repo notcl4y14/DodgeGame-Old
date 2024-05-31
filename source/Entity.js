@@ -12,6 +12,7 @@ class Entity {
 
 	destroy () {
 		let index = game.objects.indexOf(this);
+		// if (this instanceof HurtBox) console.log(index);
 		
 		if (index == -1) {
 			index = game.particles.indexOf(this);
