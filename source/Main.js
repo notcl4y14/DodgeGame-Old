@@ -2,7 +2,7 @@ let game = new Game();
 
 let initGameCanvas = function () {
 	game.canvas = document.querySelector("canvas");
-	game.context = game.canvas.getContext("2d");
+	game.context = new Context(game.canvas);
 }
 
 let initPlayer = function () {
@@ -43,6 +43,7 @@ let initLevel = function () {
 
 let init = function () {
 	initGameCanvas();
+	game.context.font = "15px Monospace";
 	game.setState(State.MainMenu);
 
 	game.running = true;

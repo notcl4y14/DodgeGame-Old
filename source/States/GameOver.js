@@ -37,13 +37,13 @@ State.GameOver = class extends State {
 		game.context.fillRect(centerW - 60, centerH - 20, 60 * 2, 20 * 2);
 
 		let oldFont = game.context.font;
-		game.context.font = "15px sans-serif";
+		game.setFontSize(15);
 		game.context.textAlign = "center";
 		game.context.textBaseline = "bottom";
 		game.context.fillStyle = "#ffffff";
 		game.context.fillText("Game Over", centerW, centerH);
 		
-		game.context.font = "10px sans-serif";
+		game.setFontSize(10);
 		game.context.fillText("Press R to restart", centerW, centerH + 12.5);
 		
 		game.context.font = oldFont;

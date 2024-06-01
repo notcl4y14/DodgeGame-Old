@@ -107,7 +107,8 @@ State.MainMenu = class extends State {
 		game.context.fillRect(centerW - 75, centerH - 20, 75 * 2, 20 * 2);
 
 		let oldFont = game.context.font;
-		game.context.font = "15px sans-serif";
+		// game.context.font = "15px sans-serif";
+		game.setFontSize(15);
 		game.context.textAlign = "center";
 		game.context.fillStyle = "#ffffff";
 		game.context.fillText("Press Space to start", centerW, centerH);
@@ -116,7 +117,8 @@ State.MainMenu = class extends State {
 		game.context.fillStyle = "#000000";
 		game.context.fillRect(centerW - 75, centerH + 30, 75 * 2, 20);
 
-		game.context.font = "12px sans-serif";
+		// game.context.font = "12px sans-serif";
+		game.setFontSize(12);
 		game.context.textAlign = "center";
 		game.context.fillStyle = "#ffffff";
 		game.context.fillText("Press S to open Settings", centerW, centerH + 43);
@@ -125,12 +127,14 @@ State.MainMenu = class extends State {
 		game.context.fillStyle = "#000000";
 		game.context.fillRect(centerW + 100, centerH - 20, 75 * 2, 35 * 2);
 
-		game.context.font = "20px sans-serif";
+		// game.context.font = "20px sans-serif";
+		game.setFontSize(20);
 		game.context.textAlign = "center";
 		game.context.fillStyle = "#ffffff";
 		game.context.fillText("Controls", centerW + 175, centerH);
 		
-		game.context.font = "15px sans-serif";
+		// game.context.font = "15px sans-serif";
+		game.setFontSize(15);
 		game.context.textAlign = "left";
 		game.context.fillText("WASD - Move", centerW + 105, centerH + 20);
 		game.context.fillText("Space - Dash", centerW + 105, centerH + 40);

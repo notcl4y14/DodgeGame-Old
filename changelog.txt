@@ -1,3 +1,12 @@
+// 06/1/2024
+- The options in Settings don't "jump" now upon choosing
+- Changed the game font from Sans-Serif to Monospace
+- Added the frame under the Settings Category title
+- Added new Settings Category
+	+ Settings
+- Added the ability to change the prefix
+- Fixed the "Remove Image" option still working upon selection despite the image is not loaded
+
 // 05/31/2024
 - Added categories for Settings
 	+ Controls

@@ -15,7 +15,9 @@ class Game {
 				Dash: "Space"
 			},
 			playerColor: `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`,
-			playerImage: new Image()
+			playerImage: new Image(),
+			prefix: "> ",
+			prefixn: "  "
 		};
 
 		this.input = new Input();
@@ -32,9 +34,23 @@ class Game {
 
 	// ============================== //
 
+	setFontSize (px) {
+		let result = this.context.font.replace(/[0-9]+/g, px);
+		this.context.font = result;
+	}
+
+	getFontSize () {
+		let result = this.context.font.match(/[0-9]+/g);
+		return result;
+	}
+
+	// ============================== //
+
 	resizeCanvas () {
+		let oldFont = this.context.font;
 		this.canvas.width = window.innerWidth;
 		this.canvas.height = window.innerHeight;
+		this.context.font = oldFont;
 	}
 
 	restart () {
@@ -82,6 +98,9 @@ class Game {
 
 		settings.playerColor = setKey( settings.playerColor, localStorage.getItem("player.color") );
 		settings.playerImage.src = setKey( settings.playerImage.src, localStorage.getItem("player.image") );
+
+		settings.prefix = setKey( settings.prefix, localStorage.getItem("prefix.chosen") );
+		settings.prefixn = setKey( settings.prefixn, localStorage.getItem("prefix.unchosen") );
 	}
 
 	async loop () {
