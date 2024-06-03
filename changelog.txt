@@ -1,4 +1,6 @@
 // 06/3/2024
+- Initial release
+============
 - Fixed controls wouldn't change in the settings
 ============
 - Added level system
