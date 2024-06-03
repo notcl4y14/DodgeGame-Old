@@ -18,7 +18,7 @@ Settings.Controls = class extends SettingsCategory {
 		let select = game.input.isKeyPressed("Space");
 
 		if (select && !state.isAwaiting) {
-			let option = state.options[state.option];
+			let option = this.options[state.option];
 			
 			game.settings.controls[option] = "Awaiting...";
 			state.isAwaiting = true;

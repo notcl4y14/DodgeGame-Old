@@ -1,4 +1,6 @@
 // 06/3/2024
+- Fixed controls wouldn't change in the settings
+============
 - Added level system
 - Added progress bar in the "Play" state
 - Added "Success" State
