@@ -14,13 +14,14 @@ let initPlayer = function () {
 }
 
 let initLevel = function () {
-	game.spawnQueue.clear();
+	if (game.level == null) return;
+	game.level.queue.clear();
 
 	for (let i = 0; i < 25; i++) {
 		let x = Math.floor(Math.random() * window.innerWidth);
 		let y = Math.floor(Math.random() * window.innerHeight);
 
-		game.spawnQueue.add( () => {
+		game.level.queue.add( () => {
 			let pos = {x, y};
 			let size = {width:25, height:25};
 			let color = `rgb(255,0,0)`;

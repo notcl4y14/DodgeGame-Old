@@ -4,6 +4,7 @@ class Game {
 		this.context = null;
 
 		this.state = State.MainMenu;
+		this.level = null;
 
 		this.settings = {
 			bgColor: "rgb(10,10,10)",
@@ -24,24 +25,11 @@ class Game {
 
 		this.objects = [];
 		this.particles = [];
-		this.spawnQueue = new Queue();
 
 		this.ticks = 0;
 		this.running = false;
 
 		this.load();
-	}
-
-	// ============================== //
-
-	setFontSize (px) {
-		let result = this.context.font.replace(/[0-9]+/g, px);
-		this.context.font = result;
-	}
-
-	getFontSize () {
-		let result = this.context.font.match(/[0-9]+/g);
-		return result;
 	}
 
 	// ============================== //
@@ -56,7 +44,7 @@ class Game {
 	restart () {
 		// location.reload();
 		this.setState(State.MainMenu);
-		this.spawnQueue.clear();
+		if (this.level) this.level.queue.clear();
 		this.objects = [];
 		this.particles = [];
 	}
@@ -168,7 +156,7 @@ class Game {
 	// ============================== //
 	
 	update () {
-		this.spawnQueue.step();
+		if (this.level) this.level.step();
 		this.state.update(this);
 	}
 	

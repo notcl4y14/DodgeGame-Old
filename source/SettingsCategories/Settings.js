@@ -86,7 +86,7 @@ Settings.Settings = class extends SettingsCategory {
 
 			let oldFont = game.context.font;
 			game.context.textBaseline = "top";
-			game.setFontSize(15);
+			game.context.fontSize = 15;
 
 			game.context.textAlign = "left";
 			game.context.fillStyle = "#ffffff";

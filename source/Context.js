@@ -24,6 +24,22 @@ class Context {
 	// ============================== //
 	// Graphics
 	// ============================== //
+	
+		get lineWidth () {
+			return this._ctx.lineWidth;
+		}
+
+		set lineWidth (v) {
+			this._ctx.lineWidth = v;
+		}
+
+		beginPath () {
+			this._ctx.beginPath();
+		}
+
+		closePath () {
+			this._ctx.closePath();
+		}
 
 		// ============================== //
 		// Stroke
@@ -47,6 +63,11 @@ class Context {
 
 			strokeRect (x, y, width, height) {
 				this._ctx.strokeRect(x, y, width, height);
+			}
+
+			strokeCircle (x, y, radius, start = 0, end = 2*Math.PI, counterClockwise = undefined) {
+				this.circle(x, y, radius, start, end, counterClockwise);
+				this.stroke();
 			}
 
 			strokeText (text, x, y, maxWidth = undefined) {
@@ -79,6 +100,11 @@ class Context {
 				this._ctx.fillRect(x, y, width, height);
 			}
 
+			fillCircle (x, y, radius, start = 0, end = 2*Math.PI, counterClockwise = undefined) {
+				this.circle(x, y, radius, start, end, counterClockwise);
+				this.fill();
+			}
+
 			fillText (text, x, y, maxWidth = undefined) {
 				this._ctx.fillText(text, x, y, maxWidth);
 			}
@@ -91,6 +117,16 @@ class Context {
 
 			rect (x, y, width, height) {
 				this._ctx.rect(x, y, width, height);
+			}
+
+			arc (x, y, radius, start = 0, end = 2*Math.PI, counterClockwise = undefined) {
+				this._ctx.arc(x, y, radius, start, end, counterClockwise);
+			}
+
+			circle (x, y, radius, start = 0, end = 2*Math.PI, counterClockwise = undefined) {
+				this._ctx.beginPath();
+				this._ctx.arc(x, y, radius, start, end, counterClockwise);
+				this._ctx.closePath();
 			}
 
 		// ============================== //

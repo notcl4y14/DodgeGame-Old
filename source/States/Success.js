@@ -1,6 +1,6 @@
-State.GameOver = class extends State {
+State.Success = class extends State {
 	constructor () {
-		super("GameOver", ["Quittable"]);
+		super("Success", ["Quittable"]);
 	}
 
 	load (game) {
@@ -8,7 +8,9 @@ State.GameOver = class extends State {
 		this.external.Quittable.exitTimeMax = 0;
 		this.external.Quittable.showQuitText = false;
 
-		game.level.stop();
+		let player = game.objects[0];
+		player.shine();
+		player.destroy();
 	}
 
 	update (game) {
@@ -44,10 +46,10 @@ State.GameOver = class extends State {
 		game.context.textAlign = "center";
 		game.context.textBaseline = "bottom";
 		game.context.fillStyle = "#ffffff";
-		game.context.fillText("Game Over", centerW, centerH);
+		game.context.fillText("You did it!", centerW, centerH);
 		
 		game.context.fontSize = 10;
-		game.context.fillText("Press R to restart", centerW, centerH + 12.5);
+		game.context.fillText("Press R to try again", centerW, centerH + 12.5);
 		
 		game.context.font = oldFont;
 		game.context.textAlign = "left";

@@ -12,35 +12,67 @@ class Player extends Entity {
 		this.glow = 0;
 	}
 
+	explode () {
+		let partsX = 4;
+		let partsY = 4;
+		
+		for (let partX = 0; partX < partsX; partX++) {
+			for (let partY = 0; partY < partsY; partY++) {
+				let width = this.size.width / partsX;
+				let height = this.size.height / partsY;
+				let x = this.position.x + (partX * width);
+				let y = this.position.y + (partY * height);
+				let color = this.color;
+				let velX = partX - (partsX / 2.5);
+				let velY = partY - (partsY / 2.5);
+
+				// Try "let velX = partX - (partsX / 2.5) * (partX * 2.5);"
+				// And touch the HurtBox :P
+
+				game.spawnParticle(
+					new MovingTrailParticle(
+						{x, y},
+						{width, height},
+						color,
+						velX,
+						velY
+					)
+				);
+			}
+		}
+	}
+
+	shine () {
+		let particle = new ResizingTrailParticle(
+			{x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2},
+			this.size,
+			this.color
+		);
+
+		let particle2 = new ResizingTrailParticle(
+			{x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2},
+			{width: this.size.width, height: this.size.height},
+			this.color,
+			4,
+			0.75
+		);
+
+		let particle3 = new ResizingTrailParticle(
+			{x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2},
+			{width: this.size.width, height: this.size.height},
+			this.color,
+			25,
+			0.75
+		);
+
+		game.spawnParticle(particle);
+		game.spawnParticle(particle2);
+		game.spawnParticle(particle3);
+	}
+
 	onCollisionEnter(ent) {
 		if (ent._.tags.includes("hurt")) {
-			let partsX = 4;
-			let partsY = 4;
-
-			for (let partX = 0; partX < partsX; partX++) {
-				for (let partY = 0; partY < partsY; partY++) {
-					let width = this.size.width / partsX;
-					let height = this.size.height / partsY;
-					let x = this.position.x + (partX * width);
-					let y = this.position.y + (partY * height);
-					let color = this.color;
-					let velX = partX - (partsX / 2.5);
-					let velY = partY - (partsY / 2.5);
-
-					// Try "let velX = partX - (partsX / 2.5) * (partX * 2.5);"
-					// And touch the HurtBox :P
-
-					game.spawnParticle(
-						new MovingTrailParticle(
-							{x, y},
-							{width, height},
-							color,
-							velX,
-							velY
-						)
-					);
-				}
-			}
+			this.explode();
 
 			this.destroy();
 			game.setState(State.GameOver);
@@ -125,6 +157,21 @@ class Player extends Entity {
 		if (this.dash < this.dashMax) {
 			game.context.fillStyle = "rgba(255,255,255,0.5)";
 			game.context.fillRect(x, y, this.dash / (this.dashMax / width), height);
+			// let radius = 20;
+			// let start = 0*Math.PI;
+			// let end = 2*Math.PI;
+			// game.context.fillStyle = "rgba(255,255,255,0.25)";
+			// game.context.strokeStyle = "rgba(255,255,255,0.5)";
+			// console.log(this.dash/this.dashMax);
+			// game.context.strokeCircle(x - 10, y + height + 10, 20, start, end*(this.dash/this.dashMax));
+			// game.context.fillCircle(x - 10, y + height + 10, radius, start, end);
+			
+			// game.context.lineWidth = 20;
+			// game.context.beginPath();
+			// game.context.arc(x - 10, y + height + 10, radius / 2, start, end*(this.dash/this.dashMax));
+			// game.context.stroke();
+			// game.context.closePath();
+			// game.context.lineWidth = 1;
 		}
 
 		game.context.fillStyle = "white";
