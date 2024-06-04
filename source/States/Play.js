@@ -18,8 +18,6 @@ State.Play = class extends State {
 		game.updateObjects();
 
 		if (game.level.finished) {
-			// game.setState(State.MainMenu);
-			// game.restart();
 			game.setState(State.Success);
 		}
 	}

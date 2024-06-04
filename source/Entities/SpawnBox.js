@@ -4,6 +4,8 @@ class SpawnBox extends Entity {
 
 		this.extraSize = time;
 		this.entity = entity;
+
+		this._.checkCollision = false;
 	}
 
 	step () {

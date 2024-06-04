@@ -29,62 +29,44 @@ class Player extends Entity {
 				// Try "let velX = partX - (partsX / 2.5) * (partX * 2.5);"
 				// And touch the HurtBox :P
 
-				game.spawnParticle(
-					new MovingTrailParticle(
-						{x, y},
-						{width, height},
-						color,
-						velX,
-						velY
-					)
-				);
+				let position = {x, y};
+				let size = {width, height};
+
+				let particle = new MovingTrailParticle(position, size, color, velX, velY);
+				game.spawnParticle(particle);
 			}
 		}
 	}
 
 	shine () {
-		let particle = new ResizingTrailParticle(
-			{x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2},
-			this.size,
-			this.color
-		);
+		let position = this.positionByPivot();
+		let size = Object.create(this.size);
+		let color = this.color;
 
-		let particle2 = new ResizingTrailParticle(
-			{x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2},
-			{width: this.size.width, height: this.size.height},
-			this.color,
-			4,
-			0.75
-		);
-
-		let particle3 = new ResizingTrailParticle(
-			{x: this.position.x + this.size.width / 2, y: this.position.y + this.size.height / 2},
-			{width: this.size.width, height: this.size.height},
-			this.color,
-			25,
-			0.75
-		);
+		let particle = new ResizingTrailParticle(position, size, color);
+		let particle2 = new ResizingTrailParticle(position, size, color, 4, 0.75);
+		let particle3 = new ResizingTrailParticle(position, size, color, 25, 0.75);
 
 		game.spawnParticle(particle);
 		game.spawnParticle(particle2);
 		game.spawnParticle(particle3);
 	}
 
-	onCollisionEnter(ent) {
-		if (ent._.tags.includes("hurt")) {
+	onCollisionEnter (entity) {
+		if (entity.hasCollisionTag("hurt")) {
 			this.explode();
-
 			this.destroy();
+
 			game.setState(State.GameOver);
 		}
 	}
 	
-	preStep() {
-		let keyLeft = game.input.isKeyDown(game.settings.controls.MoveLeft);
-		let keyRight = game.input.isKeyDown(game.settings.controls.MoveRight);
-		let keyUp = game.input.isKeyDown(game.settings.controls.MoveUp);
-		let keyDown = game.input.isKeyDown(game.settings.controls.MoveDown);
-		let keySpace = game.input.isKeyDown(game.settings.controls.Dash);
+	preStep () {
+		let keyLeft = game.isControlDown("MoveLeft");
+		let keyRight = game.isControlDown("MoveRight");
+		let keyUp = game.isControlDown("MoveUp");
+		let keyDown = game.isControlDown("MoveDown");
+		let keySpace = game.isControlDown("Dash");
 		
 		if (keySpace && this.dash > 0) {
 			this.speed = 15;
@@ -123,35 +105,32 @@ class Player extends Entity {
 		
 		// ================ //
 
-		let color = this.color;
-
-		let x = this.position.x;
-		let y = this.position.y;
-		let width = this.size.width;
-		let height = this.size.height;
-
 		if (this.glow) {
-			game.spawnParticle(
-				new TrailParticle(
-					{x, y},
-					{width, height},
-					color
-				)
-			);
+			this.leaveTrail();
+		}
+		
+		// ================ //
+		
+		if (game.input.isKeyPressed("F4")) {
+			this.explode();
+			this.destroy();
+	
+			game.setState(State.GameOver);
 		}
 	}
 	
-	draw() {
+	draw () {
 		let x = this.position.x;
 		let y = this.position.y;
 		let width = this.size.width;
 		let height = this.size.height;
+		let sprite = game.settings.player.sprite;
 
-		if (game.settings.player.image.width == 0) {
+		if (!sprite.isValid()) {
 			game.context.fillStyle = this.color;
 			game.context.fillRect(x, y, width, height);
 		} else {
-			game.context.drawImage(game.settings.player.image, x, y, width, height);
+			sprite.draw(game.context, x, y, width, height);
 		}
 
 		if (this.dash < this.dashMax) {

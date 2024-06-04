@@ -3,6 +3,7 @@ let game = new Game();
 let initGameCanvas = function () {
 	game.canvas = document.querySelector("canvas");
 	game.context = new Context(game.canvas);
+	game.context.fillCanvasToWindow();
 }
 
 let initPlayer = function () {
@@ -14,19 +15,25 @@ let initPlayer = function () {
 }
 
 let initLevel = function () {
-	if (game.level == null) return;
-	game.level.queue.clear();
+	let level = game.level;
+
+	if (level == null) {
+		return;
+	}
+
+	level.queue.clear();
+
+	let duration = 75*10;
+	let color = `rgb(255,0,0)`;
+	let size = {width:25, height:25};
 
 	for (let i = 0; i < 25; i++) {
 		let x = Math.floor(Math.random() * window.innerWidth);
 		let y = Math.floor(Math.random() * window.innerHeight);
 
-		game.level.queue.add( () => {
+		level.queue.add( () => {
 			let pos = {x, y};
-			let size = {width:25, height:25};
-			let color = `rgb(255,0,0)`;
 			let vel = {x: 5, y: 5};
-			let duration = 75*10;
 
 			let randX = Math.randomInt(0, 1);
 			let randY = Math.randomInt(0, 1);
@@ -44,12 +51,11 @@ let initLevel = function () {
 
 let init = function () {
 	initGameCanvas();
+
 	game.context.font = "15px Monospace";
 	game.setState(State.MainMenu);
 
 	game.running = true;
-
-	game.context.fillCanvasToWindow();
 	game.loop();
 }
 

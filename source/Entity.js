@@ -4,11 +4,45 @@ class Entity {
 		this.size = size;
 		this.color = color;
 
+		this.pivot = {x: 0, y: 0};
+
 		this._ = {
 			tags: colTags,
+			checkCollision: true,
 			collisions: []
 		};
 	}
+
+	// ============================== //
+
+	setPivot (x, y) {
+		this.pivot = {x, y};
+	}
+
+	positionByPivot () {
+		return {
+			x: this.position.x - this.pivot.x,
+			y: this.position.y - this.pivot.y
+		};
+	}
+
+	// ============================== //
+
+	hasCollisionTag (name) {
+		return this._.tags.includes(name);
+	}
+
+	// ============================== //
+
+	leaveTrail () {
+		let position = Object.create(this.position);
+		let size = Object.create(this.size);
+		let color = this.color;
+		let particle = new TrailParticle(position, size, color);
+		game.spawnParticle(particle);
+	}
+
+	// ============================== //
 
 	destroy () {
 		let index = game.objects.indexOf(this);
@@ -22,16 +56,15 @@ class Entity {
 		game.objects.splice(index, 1);
 	}
 
-	preStep() {}
-	step() {}
-	postStep() {}
+	preStep () {}
+	step () {}
+	postStep () {}
 
-	onCollisionEnter(other) {}
-	onCollisionLeave(other) {}
+	onCollisionEnter (other) {}
+	onCollisionLeave (other) {}
 
-	draw() {
-		let x = this.position.x;
-		let y = this.position.y;
+	draw () {
+		let {x,y} = this.positionByPivot();
 		let width = this.size.width;
 		let height = this.size.height;
 

@@ -1,4 +1,6 @@
 class Game {
+	static version = "1.1";
+
 	constructor () {
 		this.canvas = null;
 		this.context = null;
@@ -18,7 +20,7 @@ class Game {
 			},
 			player: {
 				color: `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`,
-				image: new Image(),
+				sprite: new Sprite(),
 			},
 			prefix: "> ",
 			prefixn: "  "
@@ -37,11 +39,19 @@ class Game {
 
 	// ============================== //
 
+	setState (state) {
+		this.state = new state();
+		State.loadIncludes(this.state);
+		this.state.load(this);
+	}
+
 	restart () {
 		if (this.level) this.level.queue.clear();
-		this.setState(State.MainMenu);
 		this.clearObjects();
+		this.setState(State.MainMenu);
 	}
+
+	// ============================== //
 	
 	spawn (v) {
 		let index = this.objects.push(v);
@@ -58,10 +68,18 @@ class Game {
 		this.particles = [];
 	}
 
-	setState (state) {
-		this.state = new state();
-		State.loadIncludes(this.state);
-		this.state.load(this);
+	// ============================== //
+
+	isControlDown (control) {
+		return this.input.isKeyDown(this.settings.controls[control]);
+	}
+
+	isControlUp (control) {
+		return this.input.isKeyUp(this.settings.controls[control]);
+	}
+
+	isControlPressed (control) {
+		return this.input.isKeyPressed(this.settings.controls[control]);
 	}
 
 	// ============================== //
@@ -83,7 +101,7 @@ class Game {
 		controls.Dash = setKey( controls.Dash, localStorage.getItem("controls.Dash") );
 
 		settings.player.color = setKey( settings.player.color, localStorage.getItem("player.color") );
-		settings.player.image.src = setKey( settings.player.image.src, localStorage.getItem("player.image") );
+		settings.player.sprite.src = setKey( settings.player.sprite.src, localStorage.getItem("player.sprite") );
 
 		settings.prefix = setKey( settings.prefix, localStorage.getItem("prefix.chosen") );
 		settings.prefixn = setKey( settings.prefixn, localStorage.getItem("prefix.unchosen") );
@@ -94,7 +112,7 @@ class Game {
 
 		this.ticks++;
 		
-		this.checkCollisions();
+		this.checkPlayerCollisions();
 		this.update();
 		this.draw();
 	
@@ -106,6 +124,10 @@ class Game {
 	checkCollisions () {
 		for (let i = 0; i < this.objects.length; i++) {
 			const ent1 = this.objects[i];
+
+			if (!ent1._.checkCollision) {
+				continue;
+			}
 			
 			for (let j = 0; j < this.objects.length; j++) {
 				const ent2 = this.objects[j];
@@ -129,6 +151,45 @@ class Game {
 					ent1._.collisions.splice(index, 1);
 					ent1.onCollisionLeave(ent2);
 				}
+			}
+		}
+	}
+
+	// Optimized version of checking collisions between objects
+	// Since the only objects we check between each other are player and hurtbox
+	// There's no point of checking the collision in other objects
+
+	// UPDATE: Somehow, the checkCollisions() gets 230 ms meanwhile this function is 335
+	// Idk how I wrote this to be less performant
+
+	// UPDATE 2: Nevermind, it seems that's because the player exploded later
+	// So there was more scripting going on
+	
+	checkPlayerCollisions () {
+		const player = this.objects[0];
+
+		if (!player || player.constructor.name != "Player") {
+			return;
+		}
+
+		let pos1 = player.position;
+		let size1 = player.size;
+		
+		for (let i = 0; i < this.objects.length; i++) {
+			const entity = this.objects[i];
+			let pos2 = entity.position;
+			let size2 = entity.size;
+
+			let hasCollision = collides(pos1, size1, pos2, size2);
+			let inCollisions = player._.collisions.includes(entity);
+			
+			if (hasCollision && !inCollisions) {
+				player._.collisions.push(entity);
+				player.onCollisionEnter(entity);
+			} else if (!hasCollision && inCollisions) {
+				let index = player._.collisions.indexOf(entity);
+				player._.collisions.splice(index, 1);
+				player.onCollisionLeave(entity);
 			}
 		}
 	}
