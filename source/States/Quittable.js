@@ -14,7 +14,7 @@ State.Quittable = class extends State {
 			game.restart();
 		}
 
-		if (game.input.isKeyDown("Escape")) {
+		if (game.input.isKeyDown(game.settings.controls.Quit)) {
 			this.exitTime++;
 		} else {
 			this.exitTime = 0;

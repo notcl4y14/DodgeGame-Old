@@ -34,10 +34,10 @@ Settings.Customization = class extends SettingsCategory {
 					colorPicker.addEventListener("change", (e) => {
 						// Resetting the input so it wouldn't be detected as pressed
 						game.input.keys = [];
-						game.settings.playerColor = colorPicker.value;
+						game.settings.player.color = colorPicker.value;
 						state.isAwaiting = false;
 
-						localStorage.setItem("player.color", game.settings.playerColor);
+						localStorage.setItem("player.color", game.settings.player.color);
 					});
 			
 					break;
@@ -68,10 +68,10 @@ Settings.Customization = class extends SettingsCategory {
 
 						// https://stackoverflow.com/a/11603685/22146374
 						fr.addEventListener("load", (event) => {
-							game.settings.playerImage = new Image();
-							game.settings.playerImage.src = event.target.result;
+							game.settings.player.image = new Image();
+							game.settings.player.image.src = event.target.result;
 
-							localStorage.setItem("player.image", game.settings.playerImage.src);
+							localStorage.setItem("player.image", game.settings.player.image.src);
 						}, {once: true});
 
 						fr.readAsDataURL(e.target.files[0])
@@ -79,7 +79,7 @@ Settings.Customization = class extends SettingsCategory {
 			
 					break;
 				case 2:
-					let playerImage = game.settings.playerImage;
+					let playerImage = game.settings.player.image;
 					let initText = this.options[state.option];
 
 					if (playerImage.width == 0) {
@@ -98,7 +98,7 @@ Settings.Customization = class extends SettingsCategory {
 
 					if (key.code == "Enter") {
 						playerImage = new Image();
-						game.settings.playerImage = playerImage;
+						game.settings.player.image = playerImage;
 						
 						localStorage.removeItem("player.image");
 					}
@@ -151,16 +151,16 @@ Settings.Customization = class extends SettingsCategory {
 			game.context.textBaseline = "middle";
 		}
 
-		game.context.fillStyle = game.settings.playerColor;
+		game.context.fillStyle = game.settings.player.color;
 		game.context.fillRect(centerW + panelWPart + 12, startPos.y, 50, 50);
 
-		if (game.settings.playerImage) {
+		if (game.settings.player.image) {
 			let pos = {
 				x: centerW + panelWPart + 12,
 				y: startPos.y + 55
 			};
 
-			game.context.drawImage(game.settings.playerImage, pos.x, pos.y, 50, 50);
+			game.context.drawImage(game.settings.player.image, pos.x, pos.y, 50, 50);
 		}
 	}
 }

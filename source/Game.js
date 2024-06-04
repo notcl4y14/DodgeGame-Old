@@ -13,10 +13,13 @@ class Game {
 				MoveRight: "KeyD",
 				MoveUp: "KeyW",
 				MoveDown: "KeyS",
-				Dash: "Space"
+				Dash: "Space",
+				Quit: "KeyQ"
 			},
-			playerColor: `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`,
-			playerImage: new Image(),
+			player: {
+				color: `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`,
+				image: new Image(),
+			},
 			prefix: "> ",
 			prefixn: "  "
 		};
@@ -34,19 +37,10 @@ class Game {
 
 	// ============================== //
 
-	resizeCanvas () {
-		let oldFont = this.context.font;
-		this.canvas.width = window.innerWidth;
-		this.canvas.height = window.innerHeight;
-		this.context.font = oldFont;
-	}
-
 	restart () {
-		// location.reload();
-		this.setState(State.MainMenu);
 		if (this.level) this.level.queue.clear();
-		this.objects = [];
-		this.particles = [];
+		this.setState(State.MainMenu);
+		this.clearObjects();
 	}
 	
 	spawn (v) {
@@ -59,6 +53,11 @@ class Game {
 		return index - 1;
 	}
 
+	clearObjects () {
+		this.objects = [];
+		this.particles = [];
+	}
+
 	setState (state) {
 		this.state = new state();
 		State.loadIncludes(this.state);
@@ -69,7 +68,6 @@ class Game {
 
 	load () {
 		let localStorage = window.localStorage;
-		// localStorage.setItem("controls.MoveLeft", )
 		let settings = this.settings;
 		let controls = this.settings.controls;
 		
@@ -84,8 +82,8 @@ class Game {
 		controls.MoveDown = setKey( controls.MoveDown, localStorage.getItem("controls.MoveDown") );
 		controls.Dash = setKey( controls.Dash, localStorage.getItem("controls.Dash") );
 
-		settings.playerColor = setKey( settings.playerColor, localStorage.getItem("player.color") );
-		settings.playerImage.src = setKey( settings.playerImage.src, localStorage.getItem("player.image") );
+		settings.player.color = setKey( settings.player.color, localStorage.getItem("player.color") );
+		settings.player.image.src = setKey( settings.player.image.src, localStorage.getItem("player.image") );
 
 		settings.prefix = setKey( settings.prefix, localStorage.getItem("prefix.chosen") );
 		settings.prefixn = setKey( settings.prefixn, localStorage.getItem("prefix.unchosen") );

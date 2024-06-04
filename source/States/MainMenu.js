@@ -98,7 +98,6 @@ State.MainMenu = class extends State {
 		game.context.fillRect(centerW - 75, centerH - 20, 75 * 2, 20 * 2);
 
 		let oldFont = game.context.font;
-		// game.context.font = "15px sans-serif";
 		game.context.fontSize = 15;
 		game.context.textAlign = "center";
 		game.context.fillStyle = "#ffffff";
@@ -108,7 +107,6 @@ State.MainMenu = class extends State {
 		game.context.fillStyle = "#000000";
 		game.context.fillRect(centerW - 75, centerH + 30, 75 * 2, 20);
 
-		// game.context.font = "12px sans-serif";
 		game.context.fontSize = 12;
 		game.context.textAlign = "center";
 		game.context.fillStyle = "#ffffff";
@@ -116,20 +114,32 @@ State.MainMenu = class extends State {
 		game.context.font = oldFont;
 
 		game.context.fillStyle = "#000000";
-		game.context.fillRect(centerW + 100, centerH - 20, 75 * 2, 35 * 2);
+		game.context.fillRect(centerW + 100, centerH - 20, 75 * 2, 45 * 2);
 
-		// game.context.font = "20px sans-serif";
 		game.context.fontSize = 20;
 		game.context.textAlign = "center";
 		game.context.fillStyle = "#ffffff";
 		game.context.fillText("Controls", centerW + 175, centerH);
+
+		let moveLeft = keyToString(game.settings.controls.MoveLeft);
+		let moveRight = keyToString(game.settings.controls.MoveRight);
+		let moveUp = keyToString(game.settings.controls.MoveUp);
+		let moveDown = keyToString(game.settings.controls.MoveDown);
+		let dash = keyToString(game.settings.controls.Dash);
+		let quit = keyToString(game.settings.controls.Quit);
+
+		let str1 = `${moveUp}${moveLeft}${moveDown}${moveRight} - Move`;
+		let str2 = `${dash} - Dash`;
+		let str3 = `${quit} - Quit`;
 		
-		// game.context.font = "15px sans-serif";
 		game.context.fontSize = 15;
 		game.context.textAlign = "left";
-		game.context.fillText("WASD - Move", centerW + 105, centerH + 20);
-		game.context.fillText("Space - Dash", centerW + 105, centerH + 40);
+		game.context.fillText(str1, centerW + 105, centerH + 20);
+		game.context.fillText(str2, centerW + 105, centerH + 40);
+		game.context.fillText(str3, centerW + 105, centerH + 60);
 
+		game.context.textBaseline = "top";
+		game.context.fillText("v1.1", 0, 0);
 		game.context.textBaseline = "middle";
 	}
 }

@@ -1,4 +1,10 @@
-// 06/3/2024
+// v1.1 - 06/4/2024
+- Added version at the top-left corner of the screen in Main Menu
+- The "Quit" control is now changeable
+- Changed the default quit button from "Escape" to "KeyQ"
+- The keys in texts are now almost simplified like "KeyQ" to "Q"
+
+// 06/3/2024 (v1.0)
 - Initial release
 ============
 - Fixed controls wouldn't change in the settings

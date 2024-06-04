@@ -8,7 +8,8 @@ Settings.Controls = class extends SettingsCategory {
 				"MoveRight",
 				"MoveUp",
 				"MoveDown",
-				"Dash"
+				"Dash",
+				"Quit"
 			],
 			Settings
 		);
@@ -81,7 +82,7 @@ Settings.Controls = class extends SettingsCategory {
 			if (valueText == "Awaiting...") {
 				game.context.fillStyle = "#fbce00";
 			}
-			game.context.fillText(valueText, valueX, y);
+			game.context.fillText(keyToString(valueText, true), valueX, y);
 
 			game.context.textAlign = "left";
 			game.context.textBaseline = "middle";

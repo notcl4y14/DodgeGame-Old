@@ -18,6 +18,31 @@ let rgbFromString = function(str) {
 	}
 }
 
+let keyToString = function (key, text = false) {
+	if (key.substring(0, 3) == "Key") {
+		return key[3];
+	}
+
+	if (key.substring(0, 5) == "Arrow") {
+		if (text) {
+			return key.substring(0, 5) + " " + key.substring(5, key.length);
+		}
+
+		switch (key.substring(5, key.length)) {
+			case "Left":
+				return String.fromCharCode(8592);
+			case "Up":
+				return String.fromCharCode(8593);
+			case "Right":
+				return String.fromCharCode(8594);
+			case "Down":
+				return String.fromCharCode(8595);
+		}
+	}
+
+	return key;
+}
+
 let rgbfsRGB = function (str) {
 	let r = 0;
 	let g = 0;

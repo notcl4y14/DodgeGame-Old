@@ -54,7 +54,7 @@ State.Success = class extends State {
 		game.context.font = oldFont;
 		game.context.textAlign = "left";
 		game.context.textBaseline = "middle";
-		game.context.fillText("Press Esc to quit to the main menu", 0, window.innerHeight - 10);
+		game.context.fillText(`Press ${keyToString(game.settings.controls.Quit)} to quit to the main menu`, 0, window.innerHeight - 10);
 
 		this.external.Quittable.draw(game);
 	}

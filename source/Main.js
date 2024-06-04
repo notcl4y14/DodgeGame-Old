@@ -8,7 +8,7 @@ let initGameCanvas = function () {
 let initPlayer = function () {
 	let pos = {x:50, y:50};
 	let size = {width:25, height:25};
-	let color = game.settings.playerColor;
+	let color = game.settings.player.color;
 
 	game.spawn( new Player(pos, size, color) );
 }
@@ -49,7 +49,7 @@ let init = function () {
 
 	game.running = true;
 
-	game.resizeCanvas();
+	game.context.fillCanvasToWindow();
 	game.loop();
 }
 
@@ -58,7 +58,7 @@ window.onload = () => {
 }
 
 window.onresize = () => {
-	game.resizeCanvas();
+	game.context.fillCanvasToWindow();
 }
 
 window.onkeydown = (key) => {

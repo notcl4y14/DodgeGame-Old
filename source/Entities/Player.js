@@ -147,31 +147,16 @@ class Player extends Entity {
 		let width = this.size.width;
 		let height = this.size.height;
 
-		if (game.settings.playerImage.width == 0) {
+		if (game.settings.player.image.width == 0) {
 			game.context.fillStyle = this.color;
 			game.context.fillRect(x, y, width, height);
 		} else {
-			game.context.drawImage(game.settings.playerImage, x, y, width, height);
+			game.context.drawImage(game.settings.player.image, x, y, width, height);
 		}
 
 		if (this.dash < this.dashMax) {
 			game.context.fillStyle = "rgba(255,255,255,0.5)";
 			game.context.fillRect(x, y, this.dash / (this.dashMax / width), height);
-			// let radius = 20;
-			// let start = 0*Math.PI;
-			// let end = 2*Math.PI;
-			// game.context.fillStyle = "rgba(255,255,255,0.25)";
-			// game.context.strokeStyle = "rgba(255,255,255,0.5)";
-			// console.log(this.dash/this.dashMax);
-			// game.context.strokeCircle(x - 10, y + height + 10, 20, start, end*(this.dash/this.dashMax));
-			// game.context.fillCircle(x - 10, y + height + 10, radius, start, end);
-			
-			// game.context.lineWidth = 20;
-			// game.context.beginPath();
-			// game.context.arc(x - 10, y + height + 10, radius / 2, start, end*(this.dash/this.dashMax));
-			// game.context.stroke();
-			// game.context.closePath();
-			// game.context.lineWidth = 1;
 		}
 
 		game.context.fillStyle = "white";
