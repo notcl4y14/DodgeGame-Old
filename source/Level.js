@@ -2,6 +2,10 @@ class Level {
 	constructor () {
 		this.name = "";
 		this.length = 0;
+		this.size = {
+			width: 100,
+			height: 100
+		};
 		
 		this.paused = true;
 		this.finished = false;

@@ -10,6 +10,10 @@ Math.clamp = function (value, min, max) {
 	return value;
 }
 
+let noRef = function (obj) {
+	return JSON.parse(JSON.stringify(obj));
+}
+
 let rgbFromString = function(str) {
 	if (str.substring(0, 3) == "rgb") {
 		return rgbfsRGB(str);

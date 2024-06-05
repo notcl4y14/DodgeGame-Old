@@ -68,10 +68,10 @@ Settings.Customization = class extends SettingsCategory {
 
 						// https://stackoverflow.com/a/11603685/22146374
 						fr.addEventListener("load", (event) => {
-							game.settings.player.image = new Image();
-							game.settings.player.image.src = event.target.result;
+							game.settings.player.sprite = new Image();
+							game.settings.player.sprite.src = event.target.result;
 
-							localStorage.setItem("player.image", game.settings.player.image.src);
+							localStorage.setItem("player.sprite", game.settings.player.sprite.src);
 						}, {once: true});
 
 						fr.readAsDataURL(e.target.files[0])
@@ -100,7 +100,7 @@ Settings.Customization = class extends SettingsCategory {
 						playerImage = new Image();
 						game.settings.player.image = playerImage;
 						
-						localStorage.removeItem("player.image");
+						localStorage.removeItem("player.sprite");
 					}
 			
 					break;
@@ -154,13 +154,13 @@ Settings.Customization = class extends SettingsCategory {
 		game.context.fillStyle = game.settings.player.color;
 		game.context.fillRect(centerW + panelWPart + 12, startPos.y, 50, 50);
 
-		if (game.settings.player.image) {
+		if (game.settings.player.sprite) {
 			let pos = {
 				x: centerW + panelWPart + 12,
 				y: startPos.y + 55
 			};
 
-			game.context.drawImage(game.settings.player.image, pos.x, pos.y, 50, 50);
+			game.settings.player.sprite.draw(game.context, pos.x, pos.y, 50, 50);
 		}
 	}
 }

@@ -1,3 +1,6 @@
+// 06/5/2024
+- Changed the order of spawning of the hurtboxes
+
 // v1.1 - 06/4/2024
 - Added version at the top-left corner of the screen in Main Menu
 - The "Quit" control is now changeable

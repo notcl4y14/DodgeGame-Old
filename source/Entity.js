@@ -35,8 +35,8 @@ class Entity {
 	// ============================== //
 
 	leaveTrail () {
-		let position = Object.create(this.position);
-		let size = Object.create(this.size);
+		let position = noRef(this.position);
+		let size = noRef(this.size);
 		let color = this.color;
 		let particle = new TrailParticle(position, size, color);
 		game.spawnParticle(particle);

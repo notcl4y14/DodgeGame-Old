@@ -7,9 +7,12 @@ let initGameCanvas = function () {
 }
 
 let initPlayer = function () {
-	let pos = {x:50, y:50};
+	let pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
 	let size = {width:25, height:25};
 	let color = game.settings.player.color;
+
+	pos.x -= size.width / 2;
+	pos.y -= size.height / 2;
 
 	game.spawn( new Player(pos, size, color) );
 }
@@ -27,25 +30,34 @@ let initLevel = function () {
 	let color = `rgb(255,0,0)`;
 	let size = {width:25, height:25};
 
-	for (let i = 0; i < 25; i++) {
-		let x = Math.floor(Math.random() * window.innerWidth);
-		let y = Math.floor(Math.random() * window.innerHeight);
+	let amountW = 25/4;
+	let amountH = 4;
+	let intervalX = 150;
+	let intervalY = 150;
+	let offsetX = 50;
+	let offsetY = 50;
 
-		level.queue.add( () => {
-			let pos = {x, y};
-			let vel = {x: 5, y: 5};
-
-			let randX = Math.randomInt(0, 1);
-			let randY = Math.randomInt(0, 1);
-
-			if (randX) vel.x *= -1;
-			if (randY) vel.y *= -1;
-
-			let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
-			let spawnBox = new SpawnBox(pos, size, 50, hurtBox);
-
-			game.spawnParticle(spawnBox);
-		}, 25 );
+	for (let y = 0; y < amountH; y++) {
+		for (let x = 0; x < amountW; x++) {
+			level.queue.add( () => {
+				let pos = {
+					x: x * intervalX + offsetX,
+					y: y * intervalY + offsetY
+				};
+				let vel = {x: 5, y: 5};
+		
+				let randX = Math.randomInt(0, 1);
+				let randY = Math.randomInt(0, 1);
+		
+				if (randX) vel.x *= -1;
+				if (randY) vel.y *= -1;
+		
+				let hurtBox = new HurtBox.DVD(pos, size, color, vel, duration);
+				let spawnBox = new SpawnBox(pos, size, 50, hurtBox);
+		
+				game.spawnParticle(spawnBox);
+			}, 25 );
+		}
 	}
 }
 

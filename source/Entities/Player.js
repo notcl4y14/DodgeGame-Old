@@ -40,7 +40,7 @@ class Player extends Entity {
 
 	shine () {
 		let position = this.positionByPivot();
-		let size = Object.create(this.size);
+		let size = noRef(this.size);
 		let color = this.color;
 
 		let particle = new ResizingTrailParticle(position, size, color);
