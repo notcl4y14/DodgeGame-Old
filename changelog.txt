@@ -1,3 +1,6 @@
+// 06/15/2024
+- Added console
+
 // 06/5/2024
 - Changed the order of spawning of the hurtboxes
 

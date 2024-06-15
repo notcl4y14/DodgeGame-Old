@@ -8,6 +8,8 @@ class Game {
 		this.state = State.MainMenu;
 		this.level = null;
 
+		this.console = new Console();
+
 		this.settings = {
 			bgColor: "rgb(10,10,10)",
 			controls: {
@@ -16,7 +18,8 @@ class Game {
 				MoveUp: "KeyW",
 				MoveDown: "KeyS",
 				Dash: "Space",
-				Quit: "KeyQ"
+				Quit: "KeyQ",
+				ToggleConsole: "F2"
 			},
 			player: {
 				color: `rgb(${Math.randomInt(0, 255)},${Math.randomInt(0, 255)},${Math.randomInt(0, 255)})`,
@@ -215,6 +218,18 @@ class Game {
 	// ============================== //
 	
 	update () {
+		let toggleConsole = this.isControlPressed("ToggleConsole");
+
+		if (toggleConsole) {
+			this.console.open();
+			// this.input.keys["F2"] = false;
+		}
+
+		if (this.console.isOpened) {
+			this.console.step();
+			game.input.keys = [];
+		}
+
 		if (this.level) this.level.step();
 		this.state.update(this);
 	}
@@ -224,6 +239,10 @@ class Game {
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
 		this.state.draw(this);
+
+		if (this.console.isOpened) {
+			this.console.draw();
+		}
 	}
 }
 
@@ -258,7 +277,7 @@ class Input {
 	}
 
 	async updateKey (index) {
-		if (this.keys[index] == -1) {
+		if (this.keys[index] == undefined || this.keys[index] == -1) {
 			return;
 		}
 		
