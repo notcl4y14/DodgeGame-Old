@@ -14,14 +14,6 @@ let noRef = function (obj) {
 	return JSON.parse(JSON.stringify(obj));
 }
 
-let rgbFromString = function(str) {
-	if (str.substring(0, 3) == "rgb") {
-		return rgbfsRGB(str);
-	} else if (str[0] == "#") {
-		return rgbfsHex(str);
-	}
-}
-
 let keyToString = function (key, text = false) {
 	if (key.substring(0, 3) == "Key") {
 		return key[3];
@@ -45,6 +37,14 @@ let keyToString = function (key, text = false) {
 	}
 
 	return key;
+}
+
+let rgbFromString = function(str) {
+	if (str.substring(0, 3) == "rgb") {
+		return rgbfsRGB(str);
+	} else if (str[0] == "#") {
+		return rgbfsHex(str);
+	}
 }
 
 let rgbfsRGB = function (str) {

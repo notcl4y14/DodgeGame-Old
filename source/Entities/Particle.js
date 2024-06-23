@@ -2,6 +2,15 @@ class Particle extends Entity {
 	constructor (pos, size, color) {
 		super(pos, size, color);
 	}
+
+	draw () {
+		let {x,y} = this.positionByPivot();
+		let width = this.size.width;
+		let height = this.size.height;
+
+		game.context.fillStyle = this.color;
+		game.context.fillRect(x, y, width, height);
+	}
 }
 
 class TrailParticle extends Particle {

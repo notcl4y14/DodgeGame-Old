@@ -1,3 +1,6 @@
+// 06/23/2024
+- Added Glow effect
+
 // 06/15/2024
 - Added console
 

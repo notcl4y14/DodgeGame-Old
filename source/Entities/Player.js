@@ -126,6 +126,16 @@ class Player extends Entity {
 		let height = this.size.height;
 		let sprite = game.settings.player.sprite;
 
+		if (this.dash < this.dashMax && this.dash > 0) {
+			// 50 / 16  = 3.125
+			let glowX = this.position.x - this.size.width / 3.125;
+			let glowY = this.position.y - this.size.height / 3.125;
+			let glowWidth = this.size.width + (this.size.width / 3.125) * 2;
+			let glowHeight = this.size.height + (this.size.height / 3.125) * 2;
+
+			Glow.draw(glowX, glowY, this.color, glowWidth, glowHeight);
+		}
+
 		if (!sprite.isValid()) {
 			game.context.fillStyle = this.color;
 			game.context.fillRect(x, y, width, height);

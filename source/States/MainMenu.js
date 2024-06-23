@@ -14,6 +14,8 @@ State.MainMenu = class extends State {
 			this.ticks = 0;
 		}
 
+		if (game.objects.length > 0) return;
+
 		// Top-Left
 		let hurtBox = new HurtBox.DVD(
 			{x: 0, y: 0},

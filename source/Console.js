@@ -52,21 +52,6 @@ class Console {
 	async interpretInput (str) {
 		let returnValue = undefined;
 
-		// let index = this.inputLog.findIndex((value, index) => {
-		// 	if (str == value) {
-		// 		return index;
-		// 	}
-
-		// 	return -1;
-		// });
-		
-		// if (index != -1) {
-		// 	this.inputLog.splice(index, 1);
-		// 	this.inputLog.splice(0, 0, str);
-		// } else {
-		// 	this.inputLog.unshift(str);
-		// }
-
 		this.inputLog.splice(0, 0, str);
 		
 		try {
