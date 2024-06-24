@@ -19,6 +19,14 @@ class Context {
 			this.font = oldFont;
 		}
 
+		save() {
+			this._ctx.save();
+		}
+
+		restore() {
+			this._ctx.restore();
+		}
+
 	// ============================== //
 
 	// ============================== //
@@ -31,6 +39,22 @@ class Context {
 
 		set lineWidth (v) {
 			this._ctx.lineWidth = v;
+		}
+
+		get shadowBlur () {
+			return this._ctx.shadowBlur;
+		}
+
+		set shadowBlur (v) {
+			this._ctx.shadowBlur = v;
+		}
+
+		get shadowColor () {
+			return this._ctx.shadowColor;
+		}
+
+		set shadowColor (v) {
+			this._ctx.shadowColor = v;
 		}
 
 		beginPath () {

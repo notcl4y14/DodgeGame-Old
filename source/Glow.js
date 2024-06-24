@@ -1,5 +1,5 @@
 class Glow {
-	static sprite = new Image();
+	// static sprite = new Image();
 
 	// constructor (x, y, color) {
 	// 	this.x = x;
@@ -15,10 +15,17 @@ class Glow {
 
 		// game.context.globalAlpha = 0.5;
 		// game.context.globalCompositeOperation = 'destination-in';
-		game.context.drawImage(Glow.sprite, x, y, w, h);
+		// game.context.drawImage(Glow.sprite, x, y, w, h);
 
 		// game.context.globalCompositeOperation = 'source-over';
+
+		game.context.save();
+		game.context.shadowBlur = 25;
+		game.context.shadowColor = color;
+		game.context.fillStyle = color;
+		game.context.fillRect(x, y, w, h);
+		game.context.restore();
 	}
 }
 
-Glow.sprite.src = "assets/glow.png";
+// Glow.sprite.src = "assets/glow.png";

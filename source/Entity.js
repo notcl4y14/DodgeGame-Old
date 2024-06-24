@@ -69,12 +69,12 @@ class Entity {
 		let height = this.size.height;
 
 		// 50 / 16  = 3.125
-		let glowX = this.position.x - this.size.width / 3.125;
-		let glowY = this.position.y - this.size.height / 3.125;
-		let glowWidth = this.size.width + (this.size.width / 3.125) * 2;
-		let glowHeight = this.size.height + (this.size.height / 3.125) * 2;
+		// let glowX = this.position.x - this.size.width / 3.125;
+		// let glowY = this.position.y - this.size.height / 3.125;
+		// let glowWidth = this.size.width + (this.size.width / 3.125) * 2;
+		// let glowHeight = this.size.height + (this.size.height / 3.125) * 2;
 
-		Glow.draw(glowX, glowY, "#ff0000", glowWidth, glowHeight);
+		Glow.draw(x, y, this.color, width, height);
 
 		game.context.fillStyle = this.color;
 		game.context.fillRect(x, y, width, height);
